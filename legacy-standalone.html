@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FIGHT CLUB — PROJECT MAYHEM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@200;300;400;500;600;700&family=Special+Elite&family=Share+Tech+Mono&family=UnifrakturCook:wght@700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+<style>
+/* =====================================================================
+   FIGHT CLUB // PROJECT MAYHEM  — real film imagery, hand-built UI
+   ===================================================================== */
+:root{
+  --ink:#0a0a0b; --ink2:#101013; --ink3:#16161a;
+  --soap:#ece7da; --paper:#e8e1cf;
+  --blood:#c8232a; --blood-d:#7c1318; --blood-l:#e8434a;
+  --teal:#7cc6bc; --teal-d:#3f8f86;
+  --mayhem:#f3c20d; --pink:#e39bac;
+  --consumer:#143a5c; --consumer-d:#0b2138;
+  --purple:#7351a0; --purple-ink:#5d3f83;
+  --ash:#8b887f; --ash-d:#56544d;
+  --news:#e8e3d2; --news-ink:#1a1712;
+}
+*,*::before,*::after{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{margin:0;background:var(--ink);color:var(--soap);
+  font-family:'Oswald','Helvetica Neue',Arial,sans-serif;font-weight:300;
+  overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+body.lockscroll{height:100vh;overflow:hidden;}
+::selection{background:var(--blood);color:#fff;}
+img,svg{display:block;}
+
+.disp{font-family:'Anton',Impact,sans-serif;text-transform:uppercase;}
+.mono{font-family:'Share Tech Mono','Courier New',monospace;}
+.type{font-family:'Special Elite','Courier New',monospace;}
+.eyebrow{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:.32em;
+  color:var(--blood);text-transform:uppercase;margin:0 0 18px;display:block;}
+.eyebrow.ash{color:var(--ash);}.eyebrow.gold{color:var(--mayhem);}
+
+/* ---------- ambient ---------- */
+.grain{position:fixed;inset:-50px;z-index:9000;pointer-events:none;mix-blend-mode:overlay;opacity:.06;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+  animation:grain .42s steps(4) infinite;}
+.scan{position:fixed;inset:0;z-index:9001;pointer-events:none;opacity:.38;
+  background:repeating-linear-gradient(0deg,rgba(0,0,0,0) 0 2px,rgba(0,0,0,.16) 2px 3px);}
+.scanbar{position:fixed;left:0;right:0;height:140px;z-index:9002;pointer-events:none;
+  background:linear-gradient(180deg,transparent,rgba(255,255,255,.02) 50%,transparent);animation:scanmove 7s linear infinite;}
+.vig{position:fixed;inset:0;z-index:9003;pointer-events:none;
+  background:radial-gradient(120% 90% at 50% 40%,transparent 45%,rgba(0,0,0,.6) 100%);}
+
+/* ---------- fuse ---------- */
+.fuse{position:fixed;top:0;left:0;right:0;height:3px;z-index:9100;background:rgba(255,255,255,.05);}
+.fuse-fill{height:100%;width:0;background:linear-gradient(90deg,var(--blood-d),var(--blood));position:relative;}
+.fuse-spark{position:absolute;right:-2px;top:50%;width:8px;height:8px;border-radius:50%;transform:translateY(-50%);
+  background:#ffd27a;box-shadow:0 0 10px 3px #ff8a2a,0 0 20px 6px rgba(255,80,0,.6);}
+.fuse-cap{position:fixed;top:8px;right:10px;z-index:9100;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:.28em;color:var(--ash-d);}
+
+/* ---------- side index ---------- */
+.idx{position:fixed;left:16px;top:50%;transform:translateY(-50%);z-index:8000;}
+.idx ul{list-style:none;margin:0;padding:0;}
+.idx li{margin:7px 0;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:.14em;color:var(--ash-d);transition:color .25s,transform .25s;cursor:pointer;}
+.idx li span{color:var(--ash);}
+.idx li:hover,.idx li.on{color:var(--blood);transform:translateX(4px);}
+@media(max-width:980px){.idx{display:none;}}
+
+/* ---------- reveal ---------- */
+.rev{opacity:0;transform:translateY(28px);filter:blur(6px);transition:opacity .9s ease,transform .9s cubic-bezier(.2,.7,.2,1),filter .9s ease;}
+.rev.in{opacity:1;transform:none;filter:none;}
+
+/* ---------- glitch / flick ---------- */
+.glitch{position:relative;display:inline-block;}
+.glitch::before,.glitch::after{content:attr(data-text);position:absolute;left:0;top:0;width:100%;height:100%;}
+.glitch::before{color:var(--blood);transform:translate(-2px,0);animation:gl1 2.6s infinite linear alternate-reverse;}
+.glitch::after{color:var(--teal);transform:translate(2px,0);animation:gl2 2.1s infinite linear alternate-reverse;}
+.flick{animation:flick 5.5s infinite;}
+
+/* ---------- subliminal + crack ---------- */
+.sub{position:fixed;inset:0;z-index:9500;pointer-events:none;display:none;place-items:center;background:rgba(4,4,5,.78);}
+.sub.show{display:grid;}
+.sub-word{font-family:'Anton',Impact,sans-serif;color:rgba(236,231,218,.16);font-size:min(34vw,360px);letter-spacing:-.03em;text-transform:uppercase;text-align:center;}
+.glitching{animation:shake .5s steps(2) both;}
+.crack{position:fixed;inset:0;z-index:9450;pointer-events:none;}
+
+/* ---------- letterbox ---------- */
+.lbx{position:absolute;left:0;right:0;height:clamp(22px,5vh,56px);background:#000;z-index:6;pointer-events:none;}
+.lbx.t{top:0;}.lbx.b{bottom:0;}
+
+.sec{position:relative;z-index:10;padding:120px 7vw;}
+
+/* =====================================================================
+   IMAGE TREATMENT SYSTEM  — make every still feel native to the page
+   ===================================================================== */
+/* full-bleed graded background still */
+.bg-still{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;}
+.bg-still.film{filter:grayscale(.35) contrast(1.18) brightness(.42) saturate(.75);}
+.bg-tint{position:absolute;inset:0;z-index:1;pointer-events:none;}
+.bg-tint.ink{background:linear-gradient(180deg,rgba(10,10,11,.55),rgba(10,10,11,.35) 40%,rgba(10,10,11,.95));}
+.bg-tint.teal{background:radial-gradient(120% 100% at 50% 30%,rgba(20,58,55,.25),rgba(6,8,9,.85));mix-blend-mode:multiply;}
+.bg-tint.blood{background:radial-gradient(110% 90% at 70% 30%,rgba(124,19,24,.25),rgba(8,5,6,.9));}
+
+/* framed photo (exhibit / feature) */
+.frame{position:relative;background:#0d0d10;padding:10px;border:1px solid rgba(236,231,218,.14);
+  box-shadow:0 30px 60px -30px rgba(0,0,0,.9);}
+.frame img{width:100%;height:auto;display:block;filter:contrast(1.06) saturate(.92);}
+.frame .cap{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:.18em;color:var(--ash);margin-top:8px;text-transform:uppercase;}
+.tape{position:absolute;width:78px;height:24px;background:rgba(236,231,218,.16);border:1px dashed rgba(236,231,218,.25);
+  -webkit-backdrop-filter:blur(1px);backdrop-filter:blur(1px);transform:rotate(-6deg);z-index:5;}
+.tape.tl{top:-10px;left:-14px;}.tape.tr{top:-10px;right:-14px;transform:rotate(7deg);}
+
+/* CINEMATIC SCENE-BREAK (designed posters shown whole) */
+.scene{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;
+  background:#000;overflow:hidden;text-align:center;}
+.scene .blur{position:absolute;inset:-6%;width:112%;height:112%;object-fit:cover;filter:blur(34px) brightness(.32) saturate(.7);z-index:0;}
+.scene .poster{position:relative;z-index:3;max-height:84vh;max-width:88vw;width:auto;
+  box-shadow:0 40px 90px -30px rgba(0,0,0,.95),0 0 0 1px rgba(0,0,0,.5);}
+.scene .cap{position:absolute;bottom:max(28px,6vh);left:0;right:0;z-index:4;
+  font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.3em;color:var(--ash);text-transform:uppercase;}
+.scene .reel{position:absolute;top:max(20px,4.5vh);left:0;right:0;z-index:4;display:flex;justify-content:space-between;
+  padding:0 6vw;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:.24em;color:var(--ash-d);}
+
+/* =====================================================================
+   BOOT / HERO
+   ===================================================================== */
+.boot{position:fixed;inset:0;z-index:9800;background:#040405;display:flex;flex-direction:column;justify-content:center;padding:0 9vw;cursor:pointer;transition:opacity .6s ease;}
+.boot.gone{opacity:0;pointer-events:none;}
+.boot pre{font-family:'Share Tech Mono',monospace;color:var(--teal);font-size:clamp(12px,2vw,16px);line-height:1.9;margin:0;white-space:pre-wrap;}
+.boot .skip{margin-top:30px;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:.24em;color:var(--ash-d);}
+.blk{background:var(--teal);display:inline-block;width:.6em;height:1.05em;vertical-align:-.15em;animation:blink 1s steps(1) infinite;}
+
+.hero{min-height:100vh;position:relative;overflow:hidden;display:grid;
+  grid-template-columns:1.1fr .9fr;align-items:center;gap:2vw;padding:0 7vw;}
+.hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;
+  filter:grayscale(.4) brightness(.28) saturate(.7) blur(2px);z-index:0;}
+.hero-bg-tint{position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(8,9,10,.96),rgba(8,9,10,.7) 45%,rgba(8,9,10,.4));}
+.hero-cnt{position:relative;z-index:5;padding:14vh 0;}
+.hero h1{font-family:'Anton',Impact,sans-serif;line-height:.8;margin:0 0 18px;font-size:clamp(58px,11vw,170px);letter-spacing:-.02em;text-transform:uppercase;}
+.hero .tag{font-family:'Share Tech Mono',monospace;color:var(--ash);font-size:clamp(11px,1.3vw,14px);letter-spacing:.16em;max-width:520px;line-height:1.7;margin:0 0 26px;}
+.hit-wrap{display:flex;align-items:center;gap:20px;flex-wrap:wrap;}
+.hit-line{font-family:'Oswald',sans-serif;font-weight:200;font-style:italic;color:var(--soap);font-size:clamp(15px,2vw,22px);max-width:360px;line-height:1.3;}
+.hit-btn{font-family:'Anton',Impact,sans-serif;letter-spacing:.04em;text-transform:uppercase;background:var(--blood);color:#fff;border:none;padding:18px 40px;font-size:22px;cursor:pointer;clip-path:polygon(0 0,100% 0,96% 100%,4% 100%);transition:background .2s,transform .08s;}
+.hit-btn:hover{background:var(--blood-l);}.hit-btn:active{transform:scale(.95) translateY(2px);}
+.bruise-ctr{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:.2em;color:var(--ash-d);}
+.hero-poster{position:relative;z-index:5;justify-self:center;}
+.hero-poster img{max-height:80vh;width:auto;max-width:40vw;box-shadow:0 40px 90px -28px rgba(0,0,0,.95),0 0 60px -10px rgba(63,143,134,.35),0 0 0 1px rgba(0,0,0,.5);}
+.hero-poster .pin{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:.24em;color:var(--ash-d);text-align:center;margin-top:10px;}
+.scroll-hint{position:absolute;bottom:4vh;left:7vw;z-index:7;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:.3em;color:var(--ash-d);animation:bob 2.4s ease-in-out infinite;}
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr;}
+  .hero-poster{display:none;}
+  .hero-cnt{padding:18vh 0 12vh;}
+}
+
+/* =====================================================================
+   GUN / MANIFESTO
+   ===================================================================== */
+.gun{background:linear-gradient(180deg,var(--ink),#060607);text-align:center;overflow:hidden;}
+.gun-art{width:min(560px,86vw);margin:0 auto 30px;color:var(--ash);}
+.gun-q{font-family:'Anton',Impact,sans-serif;text-transform:uppercase;line-height:.9;font-size:clamp(26px,5.4vw,64px);margin:0 auto;max-width:16ch;}
+.gun-q .red{color:var(--blood);}
+.gun-sub{font-family:'Oswald',sans-serif;font-weight:200;font-style:italic;color:var(--ash);font-size:clamp(14px,2vw,20px);margin-top:24px;}
+
+.manifesto{background:#060607;}
+.mani-grid{display:grid;grid-template-columns:1.3fr .7fr;gap:48px;align-items:center;}
+@media(max-width:860px){.mani-grid{grid-template-columns:1fr;gap:30px;}}
+.stack{font-family:'Anton',Impact,sans-serif;text-transform:uppercase;line-height:.96;}
+.stack span{display:block;font-size:clamp(26px,5.2vw,72px);color:var(--ash-d);transition:color .4s,transform .4s;}
+.stack span b{color:var(--soap);font-weight:inherit;}
+.stack span:hover{color:var(--soap);transform:translateX(14px);}
+.kick{font-family:'Anton',Impact,sans-serif;text-transform:uppercase;font-size:clamp(30px,7vw,120px);line-height:.84;margin-top:30px;color:var(--soap);}
+.kick em{color:var(--blood);font-style:normal;}
+.mani-img{position:relative;}
+.mani-img img{width:100%;height:auto;filter:contrast(1.05) saturate(.9);box-shadow:0 30px 60px -30px rgba(0,0,0,.9);}
+.mani-img .tag{position:absolute;bottom:8px;left:8px;right:8px;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:.2em;color:var(--soap);background:rgba(0,0,0,.5);padding:5px 8px;}
+
+/* =====================================================================
+   SUPPORT + REEL
+   ===================================================================== */
+.support{background:linear-gradient(180deg,#070809,#0a0a0c);}
+.sg-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:2px;background:rgba(236,231,218,.08);margin-top:30px;}
+.sg-card{background:var(--ink2);padding:28px 24px;position:relative;overflow:hidden;}
+.sg-card .ic{width:60px;height:60px;color:var(--teal-d);margin-bottom:14px;}
+.sg-card h3{font-family:'Oswald',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.04em;font-size:18px;margin:0 0 8px;color:var(--soap);}
+.sg-card p{font-family:'Special Elite',monospace;font-size:12px;line-height:1.7;color:var(--ash);margin:0;}
+.sg-card .when{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.16em;color:var(--teal-d);margin-top:14px;}
+.reel-band{display:grid;grid-template-columns:auto 1fr;gap:30px;align-items:center;margin-top:46px;}
+@media(max-width:760px){.reel-band{grid-template-columns:1fr;}}
+.filmstrip{position:relative;padding:0 14px;background:#0a0a0a;border-radius:3px;box-shadow:0 24px 50px -24px rgba(0,0,0,.9);}
+.filmstrip::before,.filmstrip::after{content:"";position:absolute;top:0;bottom:0;width:12px;
+  background-image:radial-gradient(circle,#0a0a0a 38%,transparent 40%),linear-gradient(#cfcabd,#cfcabd);
+  background-size:12px 18px;background-repeat:repeat-y;background-position:center;opacity:.55;}
+.filmstrip::before{left:0;}.filmstrip::after{right:0;}
+.filmstrip img{width:min(260px,70vw);height:auto;display:block;padding:14px 0;filter:contrast(1.08) saturate(.9);}
+.reel-txt p{font-family:'Oswald',sans-serif;font-weight:200;font-style:italic;font-size:clamp(16px,2.4vw,26px);line-height:1.4;color:var(--soap);margin:0 0 12px;}
+.reel-txt .by{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.2em;color:var(--ash-d);}
+
+/* =====================================================================
+   RULES
+   ===================================================================== */
+.rules{background:linear-gradient(180deg,#0a0a0c,#08090b);padding-bottom:60px;}
+.rules-top{display:grid;grid-template-columns:1fr auto;gap:30px;align-items:end;}
+@media(max-width:760px){.rules-top{grid-template-columns:1fr;}}
+.rules-feature{justify-self:end;max-width:260px;}
+.rules-feature img{width:100%;height:auto;box-shadow:0 24px 50px -26px rgba(0,0,0,.9);filter:contrast(1.05);}
+.rules-feature .cap{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:.18em;color:var(--ash);margin-top:8px;}
+.rules-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;margin-top:30px;}
+.r-card{position:relative;overflow:hidden;min-height:200px;background:var(--ink3);display:flex;flex-direction:column;justify-content:space-between;padding:18px;}
+.r-card:nth-child(1){grid-row:span 2;background:var(--blood-d);}
+.r-card:nth-child(2){grid-row:span 2;}
+.r-card:nth-child(7){grid-column:span 2;}
+.r-card .r-ic{position:absolute;right:-12px;bottom:-12px;width:120px;height:120px;color:rgba(236,231,218,.07);transition:color .5s,transform .5s;}
+.r-card:hover .r-ic{color:rgba(200,35,42,.22);transform:scale(1.08) rotate(-4deg);}
+.r-card:nth-child(1) .r-ic{color:rgba(255,255,255,.12);}
+.r-num{font-family:'Anton',Impact,sans-serif;font-size:clamp(38px,5vw,64px);line-height:.8;color:var(--blood);position:relative;z-index:2;}
+.r-card:nth-child(1) .r-num,.r-card:nth-child(1) .r-txt{color:#fff;}
+.r-txt{font-family:'Oswald',sans-serif;font-weight:300;text-transform:uppercase;letter-spacing:.04em;font-size:clamp(13px,1.3vw,16px);color:var(--soap);line-height:1.3;position:relative;z-index:2;transition:letter-spacing .35s;max-width:92%;}
+.r-card:hover .r-txt{letter-spacing:.1em;}
+.rules-q{margin-top:40px;font-family:'Oswald',sans-serif;font-weight:200;font-style:italic;color:var(--ash);font-size:clamp(15px,2vw,22px);max-width:640px;}
+
+/* =====================================================================
+   CHEMICAL BURN
+   ===================================================================== */
+.burn{background:radial-gradient(ellipse at 50% 30%,#1a0d0e,#060405);text-align:center;}
+.burn-stage{display:flex;flex-direction:column;align-items:center;gap:18px;margin-top:20px;}
+.hand-wrap{position:relative;width:min(360px,80vw);cursor:pointer;user-select:none;touch-action:none;}
+.hand-wrap svg{width:100%;height:auto;color:#caa089;}
+.burn-spot{position:absolute;left:50%;top:46%;width:0;height:0;border-radius:50%;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(255,180,40,.95),rgba(220,40,20,.7) 45%,rgba(120,10,5,0) 75%);pointer-events:none;transition:width .12s linear,height .12s linear,opacity .4s;mix-blend-mode:screen;}
+.burn-meter{width:min(360px,80vw);height:4px;background:rgba(255,255,255,.08);overflow:hidden;}
+.burn-meter i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--mayhem),var(--blood));}
+.burn-say{font-family:'Special Elite',monospace;font-size:clamp(16px,3vw,28px);min-height:2.4em;letter-spacing:.04em;color:var(--soap);max-width:18ch;margin:0 auto;line-height:1.3;}
+.burn-hint{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:.24em;color:var(--ash-d);}
+
+/* =====================================================================
+   IDENTITY / ID CARD
+   ===================================================================== */
+.identity{background:#070809;display:flex;flex-direction:column;align-items:center;}
+.card-stage{perspective:1400px;width:min(640px,92vw);cursor:grab;margin:0 auto;user-select:none;}
+.card-3d{position:relative;width:100%;aspect-ratio:1.4/1;transform-style:preserve-3d;will-change:transform;}
+.card-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:12px;overflow:hidden;box-shadow:0 50px 100px -30px rgba(0,0,0,.95),0 0 0 1px rgba(0,0,0,.5);}
+.cf img{width:100%;height:100%;object-fit:cover;filter:contrast(1.05) saturate(.95);}
+.cf-glare{position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen;opacity:.5;border-radius:12px;}
+.cb{transform:rotateY(180deg);background:linear-gradient(135deg,#8ecabf,#69b3a7);color:#0d2b28;}
+.cb-stripe{position:absolute;top:34px;left:0;right:0;height:42px;background:#0a0a0a;}
+.cb-cnt{position:absolute;top:90px;left:24px;right:24px;bottom:14px;}
+.cb-cnt h4{font-family:'Anton',Impact,sans-serif;margin:0 0 7px;color:#4a1a6e;font-size:clamp(13px,2.4vw,20px);letter-spacing:.04em;}
+.cb-cnt p{font-family:'Special Elite',monospace;font-size:clamp(9px,1.5vw,11px);line-height:1.55;margin:0 0 7px;}
+.barcode{display:flex;gap:2px;height:40px;align-items:stretch;margin-top:12px;}
+.barcode i{display:block;background:#06302b;}
+.barcode-txt{font-family:'Share Tech Mono',monospace;font-size:7px;letter-spacing:.14em;color:#0c3b35;margin-top:3px;}
+.cb-thumb{position:absolute;right:24px;bottom:18px;width:60px;height:78px;border:1px solid #06302b;border-radius:8px;overflow:hidden;}
+.card-hint{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.24em;color:var(--ash-d);margin-top:18px;text-align:center;}
+
+/* =====================================================================
+   JACK
+   ===================================================================== */
+.jack{position:relative;overflow:hidden;min-height:80vh;display:flex;flex-direction:column;justify-content:center;}
+.jack-grid{position:relative;z-index:5;display:grid;grid-template-columns:1.4fr .6fr;gap:40px;align-items:center;}
+@media(max-width:860px){.jack-grid{grid-template-columns:1fr;}}
+.jack-txt{font-family:'Anton',Impact,sans-serif;text-transform:uppercase;line-height:.86;font-size:clamp(30px,7vw,100px);letter-spacing:-.01em;min-height:1.7em;}
+.jack-grey{color:var(--ash-d);}.jack-red{color:var(--blood);}
+.caret{display:inline-block;width:.06em;background:var(--blood);margin-left:.04em;animation:blink 1s steps(1) infinite;}
+.jack-coast img{width:100%;height:auto;border:1px solid rgba(236,231,218,.12);box-shadow:0 24px 50px -26px rgba(0,0,0,.9);filter:contrast(1.05) saturate(.9);}
+.jack-coast .cap{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:.18em;color:var(--ash);margin-top:8px;}
+
+/* =====================================================================
+   COPY / INSOMNIA
+   ===================================================================== */
+.copy{background:#060607;}
+.copy-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:46px;align-items:center;}
+@media(max-width:860px){.copy-grid{grid-template-columns:1fr;}}
+.copy-head{font-family:'Special Elite',monospace;letter-spacing:.3em;text-transform:uppercase;font-size:clamp(15px,3vw,26px);color:var(--soap);text-align:center;}
+.copy-img img{width:100%;height:auto;filter:contrast(1.1) brightness(.95);box-shadow:0 30px 60px -30px rgba(0,0,0,.9);}
+.copy-img .cap{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:.18em;color:var(--ash);margin-top:8px;text-align:center;}
+
+/* =====================================================================
+   CONSUME
+   ===================================================================== */
+.consume{background:linear-gradient(180deg,var(--consumer),var(--consumer-d));color:var(--soap);overflow:hidden;}
+.consume-top{display:grid;grid-template-columns:1.3fr .7fr;gap:40px;align-items:center;}
+@media(max-width:860px){.consume-top{grid-template-columns:1fr;}}
+.consume h2{font-family:'Anton',Impact,sans-serif;font-size:clamp(46px,11vw,150px);line-height:.84;margin:0;text-transform:uppercase;letter-spacing:-.01em;}
+.consume h2 .out{color:transparent;-webkit-text-stroke:2px var(--soap);}
+.consume-img img{width:100%;height:auto;box-shadow:0 30px 60px -30px rgba(0,0,0,.9);filter:contrast(1.05);}
+.consume-img .cap{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:.18em;color:#9fc0d6;margin-top:8px;}
+.ticker{margin:30px 0;border-top:1px solid rgba(236,231,218,.22);border-bottom:1px solid rgba(236,231,218,.22);overflow:hidden;white-space:nowrap;padding:12px 0;}
+.ticker .run{display:inline-block;font-family:'Share Tech Mono',monospace;letter-spacing:.2em;font-size:14px;color:var(--mayhem);animation:marq 26s linear infinite;}
+.catalog{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:2px;background:rgba(236,231,218,.16);margin-top:24px;}
+.cat{background:var(--consumer-d);position:relative;overflow:hidden;}
+.cat .draw{height:150px;display:grid;place-items:center;background:#0e2a44;border-bottom:1px solid rgba(236,231,218,.1);}
+.cat .draw svg{width:72%;height:72%;color:var(--soap);opacity:.85;}
+.cat .info{padding:14px 16px 18px;}
+.cat .code{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:.18em;color:#7fa8c6;}
+.cat .nm{font-family:'Oswald',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.04em;font-size:16px;margin-top:3px;}
+.cat .ds{font-family:'Share Tech Mono',monospace;font-size:9.5px;color:#9fc0d6;margin:6px 0;line-height:1.6;}
+.cat .pr{font-family:'Anton',Impact,sans-serif;color:var(--mayhem);font-size:22px;}
+.consq{font-family:'Oswald',sans-serif;font-weight:200;font-style:italic;font-size:clamp(18px,3vw,30px);margin-top:34px;max-width:680px;line-height:1.4;}
+
+/* =====================================================================
+   PROJECT MAYHEM — REDACTED NEWSPAPER
+   ===================================================================== */
+.news{background:repeating-linear-gradient(180deg,#0c0d0f,#0c0d0f 40px,#0a0b0d 40px,#0a0b0d 80px);}
+.news-lead{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:.2em;color:var(--ash);max-width:620px;margin:0 0 26px;line-height:1.7;}
+.newsstand{max-width:1000px;margin:0 auto;}
+.newspaper{position:relative;background:var(--news);color:var(--news-ink);padding:22px clamp(18px,3vw,34px) 30px;
+  box-shadow:0 60px 100px -40px rgba(0,0,0,.92);font-family:Georgia,'Times New Roman',serif;}
+.newspaper::before{content:"";position:absolute;inset:0;pointer-events:none;mix-blend-mode:multiply;opacity:.5;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.035' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.55 0 0 0 0 0.5 0 0 0 0 0.4 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+.newspaper>*{position:relative;z-index:2;}
+.np-rail{display:flex;justify-content:space-between;align-items:center;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;border-bottom:1px solid var(--news-ink);padding-bottom:5px;}
+.np-masthead{font-family:'UnifrakturCook','Playfair Display',serif;font-weight:700;text-align:center;font-size:clamp(28px,6.6vw,66px);line-height:1.05;margin:8px 0 4px;}
+.np-meta{display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;font-family:Georgia,serif;font-style:italic;font-size:11px;border-top:1px solid var(--news-ink);border-bottom:4px double var(--news-ink);padding:4px 0;}
+.np-banner{text-align:center;border-bottom:2px solid var(--news-ink);padding:12px 0 10px;}
+.np-kicker{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:#7c1318;}
+.np-head{font-family:'Anton',Impact,sans-serif;font-size:clamp(48px,14vw,150px);line-height:.82;letter-spacing:.005em;margin:4px 0;text-transform:uppercase;}
+.np-sub{font-family:'Playfair Display',Georgia,serif;font-weight:700;font-size:clamp(14px,2.4vw,22px);}
+.np-byline{font-family:Georgia,serif;font-style:italic;font-size:11px;text-align:center;margin:8px 0 2px;border-bottom:1px solid var(--news-ink);padding-bottom:8px;}
+.np-cols{column-count:3;column-gap:20px;column-rule:1px solid rgba(0,0,0,.28);margin-top:14px;font-size:12.5px;line-height:1.58;text-align:justify;hyphens:auto;}
+@media(max-width:760px){.np-cols{column-count:2;}}
+@media(max-width:520px){.np-cols{column-count:1;}}
+.np-cols p{margin:0 0 9px;}
+.np-cols p.lead::first-letter{font-family:'Anton',Impact,sans-serif;font-size:46px;float:left;line-height:.74;padding:4px 7px 0 0;color:#7c1318;}
+.np-figure{break-inside:avoid;margin:0 0 12px;border:1px solid var(--news-ink);padding:5px;background:#ded8c6;}
+.np-figure img{width:100%;height:auto;display:block;filter:grayscale(1) contrast(1.35) brightness(1.02);}
+.np-figcap{font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:.1em;text-transform:uppercase;margin-top:4px;color:#3a352c;}
+.np-box{break-inside:avoid;border:1px solid var(--news-ink);padding:10px;margin:0 0 12px;background:rgba(0,0,0,.03);}
+.np-box h5{font-family:'Anton',Impact,sans-serif;font-size:15px;margin:0 0 5px;text-transform:uppercase;line-height:.95;}
+.np-box .src{font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:.12em;color:#5a5446;margin-top:6px;}
+.np-pull{break-inside:avoid;font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:700;font-size:16px;line-height:1.3;border-top:3px double var(--news-ink);border-bottom:3px double var(--news-ink);padding:8px 0;margin:0 0 12px;text-align:center;}
+.np-classifieds{border-top:4px double var(--news-ink);margin-top:14px;padding-top:12px;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+@media(max-width:680px){.np-classifieds{grid-template-columns:repeat(2,1fr);}}
+.np-ad{border:1px solid var(--news-ink);padding:10px 8px;text-align:center;}
+.np-ad .ah{font-family:'Anton',Impact,sans-serif;font-size:13px;text-transform:uppercase;line-height:.95;}
+.np-ad .ap{font-family:Georgia,serif;font-size:9px;line-height:1.4;margin-top:4px;}
+.np-ad.box{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:.1em;}
+.np-stamp{position:absolute;z-index:6;font-family:'Anton',Impact,sans-serif;text-transform:uppercase;border:4px double currentColor;padding:4px 14px;letter-spacing:.06em;}
+.np-stamp.cls{color:#7c1318;top:160px;right:18px;transform:rotate(9deg);font-size:clamp(16px,3vw,26px);opacity:.82;}
+.np-stamp.evd{color:#1a3a6a;top:380px;left:14px;transform:rotate(-7deg);font-size:13px;opacity:.6;border-style:solid;border-width:2px;}
+/* redaction bars */
+.rd{display:inline;background:var(--news-ink);color:transparent;border-radius:1px;padding:0 2px;-webkit-box-decoration-break:clone;box-decoration-break:clone;transition:background .25s,color .25s;cursor:help;}
+.rd::after{content:attr(data-real);}
+.news.reveal-secret .rd{background:rgba(200,35,42,.12);color:#7c1318;font-weight:bold;}
+.np-coffee{position:absolute;right:46px;top:300px;width:84px;height:84px;border-radius:50%;border:8px solid rgba(90,60,20,.16);opacity:.7;z-index:5;pointer-events:none;}
+/* the real scan, pinned as evidence */
+.exhibit{margin:34px auto 0;max-width:430px;position:relative;transform:rotate(-1.4deg);}
+.exhibit img{width:100%;height:auto;display:block;box-shadow:0 40px 70px -34px rgba(0,0,0,.95);filter:contrast(1.05) brightness(.96);border:1px solid rgba(0,0,0,.4);}
+.exhibit .lab{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:.18em;color:var(--ash);text-align:center;margin-top:10px;text-transform:uppercase;}
+.declass-row{text-align:center;margin-top:30px;}
+.declass-btn{font-family:'Share Tech Mono',monospace;letter-spacing:.18em;font-size:11px;background:#15110c;color:var(--paper);border:none;padding:12px 22px;cursor:pointer;}
+.declass-btn:hover{background:var(--blood);}
+.denied{color:var(--blood);font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:.16em;margin-top:12px;min-height:14px;}
+
+/* =====================================================================
+   HOMEWORK / RAYMOND / SOAP / REVEAL / DEMO / FOOTER
+   ===================================================================== */
+.homework{background:#08090b;text-align:center;}
+.hw-card{max-width:620px;margin:30px auto 0;border:1px solid rgba(236,231,218,.16);background:var(--ink2);padding:34px 30px;}
+.hw-head{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:.26em;color:var(--mayhem);margin-bottom:18px;}
+.hw-text{font-family:'Special Elite',monospace;font-size:clamp(18px,3vw,30px);line-height:1.35;min-height:3em;color:var(--soap);}
+.hw-btn{margin-top:26px;font-family:'Anton',Impact,sans-serif;text-transform:uppercase;letter-spacing:.04em;background:var(--mayhem);color:#15110c;border:none;padding:14px 30px;font-size:18px;cursor:pointer;transition:transform .08s,background .2s;}
+.hw-btn:hover{background:#ffd227;}.hw-btn:active{transform:scale(.95) translateY(2px);}
+.hw-count{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.18em;color:var(--ash-d);margin-top:14px;}
+
+.raymond{background:linear-gradient(180deg,#060607,#0a0a0c);}
+.ray-wrap{display:grid;grid-template-columns:.8fr 1.2fr;gap:40px;align-items:center;margin-top:24px;}
+@media(max-width:760px){.ray-wrap{grid-template-columns:1fr;}}
+.ray-img img{width:100%;height:auto;filter:contrast(1.06) saturate(.92);box-shadow:0 30px 60px -30px rgba(0,0,0,.9);}
+.ray-img .cap{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:.18em;color:var(--ash);margin-top:8px;}
+.ray-q{font-family:'Anton',Impact,sans-serif;text-transform:uppercase;line-height:.96;font-size:clamp(24px,4.4vw,52px);color:var(--soap);}
+.ray-q .red{color:var(--blood);}
+.ray-p{font-family:'Special Elite',monospace;font-size:13px;line-height:1.8;color:var(--ash);max-width:520px;margin-top:18px;}
+
+.soap-sec{background:#050506;}
+.soap-grid{display:grid;grid-template-columns:1fr 1fr;gap:46px;align-items:center;}
+@media(max-width:860px){.soap-grid{grid-template-columns:1fr;}}
+.soap-card-img{position:relative;}
+.soap-card-img img{width:100%;height:auto;box-shadow:0 40px 80px -34px rgba(0,0,0,.95);filter:contrast(1.05) saturate(.95);}
+.soap-card-img .cap{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:.18em;color:var(--ash);margin-top:10px;text-align:center;}
+.soap-emblem{width:min(360px,80vw);margin:0 0 22px;color:var(--soap);}
+.soap-txt{font-family:'Oswald',sans-serif;font-weight:200;max-width:520px;line-height:1.65;font-size:clamp(14px,2vw,18px);color:#cfcabd;margin:0 0 16px;}
+.soap-meta{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:.22em;color:var(--ash-d);}
+
+.reveal{position:relative;overflow:hidden;text-align:center;}
+.reveal .bg-still.film{filter:grayscale(.5) contrast(1.2) brightness(.32) saturate(.6);}
+.rv-inner{position:relative;z-index:5;}
+.rv-q{font-family:'Anton',Impact,sans-serif;text-transform:uppercase;line-height:.9;font-size:clamp(28px,6vw,86px);color:var(--soap);}
+.rv-q .red{color:var(--blood);}
+.rv-sub{font-family:'Special Elite',monospace;font-size:clamp(13px,2vw,18px);color:var(--ash);margin:22px auto 0;max-width:32ch;line-height:1.7;}
+.rv-btn{margin-top:30px;font-family:'Share Tech Mono',monospace;letter-spacing:.2em;font-size:13px;background:transparent;color:var(--soap);border:1px solid var(--ash-d);padding:14px 28px;cursor:pointer;transition:all .2s;}
+.rv-btn:hover{border-color:var(--blood);color:var(--blood);}
+.rv-after{min-height:1.6em;margin-top:24px;font-family:'Anton',Impact,sans-serif;text-transform:uppercase;font-size:clamp(20px,4vw,44px);color:var(--blood);}
+
+.demo{background:linear-gradient(180deg,#0a0a0c,#040405);text-align:center;overflow:hidden;position:relative;}
+.demo-sky{width:100%;max-width:1100px;margin:24px auto 0;}
+.demo-sky svg{width:100%;height:auto;}
+.bldg{transform-box:fill-box;transform-origin:bottom center;}
+.demo.boom .bldg{animation:collapse 2.4s cubic-bezier(.6,0,.85,.3) forwards;}
+.demo.boom .bldg.b2{animation-delay:.25s;}.demo.boom .bldg.b3{animation-delay:.5s;}
+.demo.boom .bldg.b4{animation-delay:.15s;}.demo.boom .bldg.b5{animation-delay:.65s;}
+.boom-flash{position:absolute;inset:0;background:var(--soap);opacity:0;pointer-events:none;z-index:30;}
+.demo.boom .boom-flash{animation:flashbang 2.4s ease-out forwards;}
+.demo-btn{margin:6px auto 0;font-family:'Anton',Impact,sans-serif;text-transform:uppercase;letter-spacing:.04em;background:var(--blood);color:#fff;border:none;padding:16px 40px;font-size:22px;cursor:pointer;clip-path:polygon(0 0,100% 0,96% 100%,4% 100%);transition:background .2s,transform .08s;}
+.demo-btn:hover{background:var(--blood-l);}.demo-btn:active{transform:scale(.95) translateY(2px);}
+.demo-q{font-family:'Oswald',sans-serif;font-weight:200;font-style:italic;color:var(--ash);font-size:clamp(16px,2.6vw,28px);margin-top:30px;min-height:2.4em;transition:opacity .6s;}
+.demo-ending{max-width:440px;margin:26px auto 0;opacity:0;transition:opacity 1.6s;}
+.demo.boom .demo-ending{opacity:1;}
+.demo-ending img{width:100%;height:auto;box-shadow:0 40px 80px -30px rgba(0,0,0,.95);filter:contrast(1.05) saturate(.95);}
+.demo-ending .cap{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:.2em;color:var(--ash);margin-top:10px;}
+
+.foot{background:#040405;text-align:center;padding:120px 7vw 90px;position:relative;z-index:10;}
+.foot .big{font-family:'Anton',Impact,sans-serif;font-size:clamp(30px,7vw,96px);line-height:.88;text-transform:uppercase;letter-spacing:-.01em;}
+.foot .q{font-family:'Oswald',sans-serif;font-weight:200;font-style:italic;color:var(--ash);font-size:clamp(15px,2.4vw,24px);margin-top:24px;}
+.regmark{display:inline-block;width:24px;height:24px;position:relative;margin:0 9px;opacity:.4;}
+.regmark::before,.regmark::after{content:"";position:absolute;background:var(--ash);}
+.regmark::before{left:50%;top:0;bottom:0;width:1px;transform:translateX(-50%);}
+.regmark::after{top:50%;left:0;right:0;height:1px;transform:translateY(-50%);}
+.foot-meta{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.2em;color:var(--ash-d);margin-top:46px;line-height:1.9;}
+
+/* =====================================================================
+   INTEGRATED IMAGE ARTIFACTS — built elements, image lives inside
+   ===================================================================== */
+/* ---- CRT television (copy / insomnia) ---- */
+.crt{position:relative;background:linear-gradient(145deg,#26262a,#101012);border-radius:22px/26px;
+  padding:22px 22px 30px;box-shadow:0 36px 70px -30px rgba(0,0,0,.95),inset 0 2px 4px rgba(255,255,255,.06);}
+.crt-screen{position:relative;border-radius:30px/22px;overflow:hidden;background:#04110f;
+  box-shadow:inset 0 0 50px 8px rgba(0,0,0,.9),inset 0 0 0 6px #000;aspect-ratio:4/3;}
+.crt-screen img{width:100%;height:100%;object-fit:cover;filter:contrast(1.2) brightness(1.02) saturate(1.1);
+  mix-blend-mode:screen;opacity:.92;transform:scale(1.02);}
+.crt-screen::before{content:"";position:absolute;inset:0;z-index:3;pointer-events:none;
+  background:repeating-linear-gradient(0deg,rgba(0,0,0,0) 0 2px,rgba(0,0,0,.28) 2px 3px);}
+.crt-screen::after{content:"";position:absolute;inset:0;z-index:4;pointer-events:none;
+  background:radial-gradient(120% 120% at 50% 50%,transparent 60%,rgba(0,0,0,.6));mix-blend-mode:multiply;}
+.crt-bulge{position:absolute;inset:0;z-index:5;pointer-events:none;
+  background:linear-gradient(125deg,rgba(255,255,255,.10),transparent 36%);}
+.crt-osd{position:absolute;top:14px;left:16px;z-index:6;font-family:'Share Tech Mono',monospace;
+  font-size:12px;letter-spacing:.14em;color:#9fe6d8;text-shadow:0 0 6px rgba(124,198,188,.7);}
+.crt-osd .rec{color:#ff5a4a;}
+.crt-base{display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding:0 6px;}
+.crt-brand{font-family:'Anton',Impact,sans-serif;letter-spacing:.18em;font-size:13px;color:#6b6b70;}
+.crt-knobs{display:flex;gap:12px;}
+.crt-knobs i{width:18px;height:18px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#3a3a40,#0e0e10);box-shadow:0 1px 2px rgba(0,0,0,.7);display:block;}
+
+/* ---- CCTV monitor (Raymond) ---- */
+.cctv{position:relative;background:#000;border:2px solid #1c1c20;border-radius:6px;overflow:hidden;
+  box-shadow:0 30px 60px -30px rgba(0,0,0,.95);}
+.cctv img{width:100%;height:auto;display:block;filter:grayscale(.55) contrast(1.25) brightness(.82) saturate(.6);}
+.cctv::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(0deg,rgba(0,0,0,0) 0 3px,rgba(0,0,0,.22) 3px 4px);}
+.cctv-ui{position:absolute;inset:0;z-index:3;pointer-events:none;font-family:'Share Tech Mono',monospace;color:#e9e9e9;text-shadow:0 1px 2px #000;}
+.cctv-ui .tl{position:absolute;top:10px;left:12px;font-size:11px;letter-spacing:.14em;}
+.cctv-ui .tr{position:absolute;top:10px;right:12px;font-size:11px;letter-spacing:.14em;display:flex;align-items:center;gap:6px;}
+.cctv-ui .tr b{width:9px;height:9px;border-radius:50%;background:#ff3b30;animation:recblink 1.2s steps(1) infinite;}
+.cctv-ui .bl{position:absolute;bottom:10px;left:12px;font-size:11px;letter-spacing:.14em;}
+.cctv-ui .br{position:absolute;bottom:10px;right:12px;font-size:10px;letter-spacing:.1em;opacity:.8;}
+.cctv-ui .cross{position:absolute;left:50%;top:50%;width:28px;height:28px;transform:translate(-50%,-50%);
+  border:1px solid rgba(255,255,255,.5);}
+.cctv-ui .cross::before,.cctv-ui .cross::after{content:"";position:absolute;background:rgba(255,255,255,.5);}
+.cctv-ui .cross::before{left:50%;top:-10px;bottom:-10px;width:1px;transform:translateX(-50%);}
+.cctv-ui .cross::after{top:50%;left:-10px;right:-10px;height:1px;transform:translateY(-50%);}
+@keyframes recblink{50%{opacity:.2}}
+
+/* ---- evidence bag (manifesto currency) ---- */
+.evbag{position:relative;background:linear-gradient(135deg,rgba(236,231,218,.10),rgba(236,231,218,.03));
+  border:1px solid rgba(236,231,218,.22);border-radius:4px;padding:46px 16px 16px;
+  box-shadow:0 30px 60px -34px rgba(0,0,0,.9),inset 0 0 40px rgba(255,255,255,.04);
+  -webkit-backdrop-filter:blur(1px);backdrop-filter:blur(1px);}
+.evbag::before{content:"";position:absolute;top:14px;left:8%;right:8%;height:10px;border-radius:6px;
+  background:repeating-linear-gradient(90deg,rgba(236,231,218,.18) 0 6px,transparent 6px 12px);}
+.evbag-tag{position:absolute;top:8px;right:14px;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:.16em;color:var(--blood);}
+.evbag img{width:100%;height:auto;display:block;filter:contrast(1.06) saturate(.95);box-shadow:0 8px 18px rgba(0,0,0,.5);}
+.evbag-meta{display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;margin-top:12px;
+  font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:.14em;color:var(--ash);text-transform:uppercase;}
+.evbag-meta b{color:var(--soap);font-weight:400;}
+
+/* ---- magazine spread (consume) ---- */
+.mag{position:relative;background:#0e2a44;box-shadow:0 36px 70px -34px rgba(0,0,0,.92);overflow:hidden;}
+.mag-img{position:relative;}
+.mag-img img{width:100%;height:auto;display:block;filter:contrast(1.05) saturate(.95);}
+.mag-masthead{position:absolute;top:14px;left:0;right:0;text-align:center;z-index:3;
+  font-family:'Anton',Impact,sans-serif;font-size:clamp(22px,4vw,40px);letter-spacing:.04em;color:#fff;
+  mix-blend-mode:overlay;text-transform:uppercase;}
+.mag-cover{position:absolute;left:14px;bottom:14px;z-index:3;max-width:62%;}
+.mag-cover .l{display:block;font-family:'Oswald',sans-serif;font-weight:600;text-transform:uppercase;
+  letter-spacing:.02em;font-size:13px;line-height:1.35;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.8);margin-bottom:5px;}
+.mag-cover .l b{color:var(--mayhem);}
+.mag-price{position:absolute;right:12px;bottom:12px;z-index:3;text-align:right;}
+.mag-price .bc{display:flex;gap:1.5px;height:26px;justify-content:flex-end;}
+.mag-price .bc i{display:block;width:2px;background:#fff;}
+.mag-price .pp{font-family:'Share Tech Mono',monospace;font-size:9px;color:#fff;margin-top:3px;letter-spacing:.1em;}
+
+/* ---- detonator console (demolition) ---- */
+.detonator{display:inline-block;position:relative;margin:8px auto 0;text-align:left;
+  background:linear-gradient(160deg,#3a3c40,#1b1c1f 60%);border-radius:12px;padding:18px 22px 20px;
+  box-shadow:0 30px 56px -28px rgba(0,0,0,.95),inset 0 2px 3px rgba(255,255,255,.08),inset 0 -4px 8px rgba(0,0,0,.6);
+  border:1px solid #0c0c0e;}
+.det-top{display:flex;justify-content:space-between;align-items:center;gap:24px;margin-bottom:14px;}
+.det-label{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:.16em;color:#b9bbbf;line-height:1.5;}
+.det-label b{color:var(--mayhem);}
+.det-readout{font-family:'Share Tech Mono',monospace;font-size:22px;letter-spacing:.18em;color:#ff5a4a;
+  background:#0a0a0b;padding:5px 12px;border-radius:4px;box-shadow:inset 0 0 12px rgba(255,60,40,.35);
+  text-shadow:0 0 8px rgba(255,80,60,.8);min-width:96px;text-align:center;}
+.det-mid{display:flex;align-items:center;gap:22px;}
+.det-plunger{position:relative;width:120px;height:96px;cursor:pointer;-webkit-user-select:none;user-select:none;flex-shrink:0;}
+.det-plunger .box{position:absolute;left:14px;right:14px;bottom:0;height:46px;border-radius:6px;
+  background:linear-gradient(180deg,#8a1c20,#5e1216);box-shadow:inset 0 2px 3px rgba(255,255,255,.15),0 4px 8px rgba(0,0,0,.6);}
+.det-plunger .shaft{position:absolute;left:50%;bottom:40px;width:14px;height:34px;transform:translateX(-50%);
+  background:linear-gradient(90deg,#3a3a3e,#16161a);}
+.det-plunger .knob{position:absolute;left:50%;bottom:62px;width:78px;height:30px;transform:translateX(-50%);
+  border-radius:16px;background:radial-gradient(ellipse at 40% 30%,#e8474d,#9a1318);
+  box-shadow:0 6px 0 #6c0f13,0 10px 16px rgba(0,0,0,.6);transition:bottom .08s,box-shadow .08s;}
+.det-plunger:hover .knob{background:radial-gradient(ellipse at 40% 30%,#ff5a60,#b3161c);}
+.det-plunger.down .knob{bottom:46px;box-shadow:0 2px 0 #6c0f13,0 4px 8px rgba(0,0,0,.6);}
+.det-plunger .lbl{position:absolute;left:0;right:0;bottom:-18px;text-align:center;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:.18em;color:#b9bbbf;}
+.det-keys{display:flex;flex-direction:column;gap:8px;}
+.det-led{display:flex;align-items:center;gap:8px;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.12em;color:#9a9ca0;}
+.det-led i{width:10px;height:10px;border-radius:50%;background:#3a3a3e;box-shadow:inset 0 0 3px rgba(0,0,0,.8);display:block;}
+.det-led.armed i{background:var(--mayhem);box-shadow:0 0 8px var(--mayhem);}
+.det-led.live i{background:#ff3b30;box-shadow:0 0 8px #ff3b30;animation:recblink 1s steps(1) infinite;}
+.det-toggle{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.14em;background:#0a0a0b;color:var(--mayhem);
+  border:1px solid #2a2a2e;padding:7px 12px;cursor:pointer;border-radius:3px;transition:background .2s,color .2s;}
+.det-toggle.on{background:var(--mayhem);color:#15110c;}
+.det-wire{display:block;margin:14px auto 0;width:80%;max-width:360px;height:auto;color:#5a5c60;opacity:.7;}
+/* film-strip ending reveal */
+.endstrip{position:relative;margin:26px auto 0;max-width:760px;background:#0a0a0a;border-radius:3px;
+  padding:12px 16px;display:flex;gap:10px;overflow:hidden;box-shadow:0 24px 50px -26px rgba(0,0,0,.9);
+  opacity:0;transform:translateY(16px);transition:opacity 1.4s ease,transform 1.4s ease;}
+.demo.boom .endstrip{opacity:1;transform:none;}
+.endstrip::before,.endstrip::after{content:"";position:absolute;top:0;bottom:0;width:14px;opacity:.5;
+  background-image:radial-gradient(circle,#0a0a0a 38%,transparent 40%),linear-gradient(#cfcabd,#cfcabd);background-size:14px 18px;background-repeat:repeat-y;background-position:center;}
+.endstrip::before{left:0;}.endstrip::after{right:0;}
+.endstrip img{height:150px;width:auto;display:block;filter:contrast(1.08) saturate(.92);}
+
+/* ---- redesigned chemical burn (film cell + induction form) ---- */
+.burn-cell{position:relative;border-radius:4px;overflow:hidden;background:radial-gradient(ellipse at 50% 35%,#241012,#080506);
+  box-shadow:0 36px 70px -34px rgba(0,0,0,.95),inset 0 0 90px rgba(0,0,0,.7);min-height:340px;
+  display:flex;align-items:center;justify-content:center;}
+.burn-cell .lbx{height:clamp(16px,4vh,34px);}
+.burn-scene{position:relative;width:min(320px,72vw);}
+.burn-scene svg{width:100%;height:auto;color:#caa089;filter:drop-shadow(0 18px 26px rgba(0,0,0,.6));}
+.burn-bottle{position:absolute;right:-6%;bottom:8%;width:84px;height:auto;color:#9fb0a8;opacity:.9;}
+.burn-spot2{position:absolute;left:50%;top:46%;width:0;height:0;border-radius:50%;transform:translate(-50%,-50%);
+  background:radial-gradient(circle,rgba(255,200,90,.95),rgba(225,55,25,.78) 42%,rgba(120,10,5,0) 74%);
+  pointer-events:none;mix-blend-mode:screen;transition:opacity .4s;}
+.burn-scar{position:absolute;left:50%;top:46%;width:18px;height:24px;transform:translate(-50%,-50%) rotate(-18deg);
+  border-radius:50% 50% 48% 52%;background:radial-gradient(circle,rgba(150,40,30,.0),rgba(120,30,22,.0));
+  box-shadow:0 0 0 0 rgba(120,30,22,0);opacity:0;transition:opacity .8s;pointer-events:none;}
+.burn-scar.show{opacity:.85;background:radial-gradient(circle at 45% 40%,#7a2a22,#3a1410);box-shadow:0 0 14px 3px rgba(120,30,22,.5);}
+.burn-sub{position:absolute;left:0;right:0;bottom:max(14px,4vh);z-index:6;text-align:center;
+  font-family:'Special Elite',monospace;font-size:clamp(14px,2.4vw,22px);color:#f2ede2;
+  text-shadow:0 2px 8px rgba(0,0,0,.95);padding:0 8%;line-height:1.3;}
+.burn-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:34px;align-items:stretch;margin-top:24px;}
+@media(max-width:820px){.burn-grid{grid-template-columns:1fr;}}
+.burn-form{background:var(--paper);color:#1a1712;padding:22px 24px;font-family:'Special Elite',monospace;
+  position:relative;box-shadow:0 30px 60px -34px rgba(0,0,0,.85);}
+.burn-form::before{content:"";position:absolute;inset:0;opacity:.4;mix-blend-mode:multiply;pointer-events:none;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.55 0 0 0 0 0.5 0 0 0 0 0.4 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+.burn-form>*{position:relative;z-index:2;}
+.burn-form h4{font-family:'Anton',Impact,sans-serif;margin:0 0 4px;font-size:clamp(18px,3vw,26px);text-transform:uppercase;line-height:.9;}
+.burn-form .sub{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:.18em;border-bottom:1px solid #1a1712;padding-bottom:8px;margin-bottom:12px;}
+.burn-line{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:13px;border-bottom:1px dotted rgba(26,23,18,.4);padding:6px 0;}
+.burn-line .k{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.1em;}
+.burn-line .v{font-weight:bold;}
+.burn-meter2{height:14px;background:rgba(26,23,18,.12);border:1px solid #1a1712;margin-top:14px;position:relative;overflow:hidden;}
+.burn-meter2 i{display:block;height:100%;width:0;background:repeating-linear-gradient(90deg,var(--blood) 0 8px,var(--blood-d) 8px 16px);}
+.burn-meter2 span{position:absolute;inset:0;display:grid;place-items:center;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:.2em;color:#1a1712;}
+.burn-hint2{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:.2em;color:var(--ash-d);margin-top:18px;text-align:center;}
+
+/* ---------- animations ---------- */
+@keyframes grain{0%{transform:translate(0,0)}10%{transform:translate(-3%,-5%)}20%{transform:translate(-8%,3%)}30%{transform:translate(5%,-9%)}40%{transform:translate(-3%,9%)}50%{transform:translate(-8%,5%)}60%{transform:translate(9%,0)}70%{transform:translate(0,7%)}80%{transform:translate(-9%,0)}90%{transform:translate(5%,5%)}100%{transform:translate(0,0)}}
+@keyframes scanmove{0%{top:-140px}100%{top:100%}}
+@keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(7px);opacity:1}}
+@keyframes blink{50%{opacity:0}}
+@keyframes marq{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+@keyframes flick{0%,19%,21%,23%,80%,100%{opacity:1}20%,22%{opacity:.35}81%{opacity:.6}}
+@keyframes gl1{0%{clip-path:inset(8% 0 86% 0)}20%{clip-path:inset(40% 0 41% 0)}40%{clip-path:inset(72% 0 12% 0)}60%{clip-path:inset(20% 0 66% 0)}80%{clip-path:inset(58% 0 28% 0)}100%{clip-path:inset(90% 0 2% 0)}}
+@keyframes gl2{0%{clip-path:inset(70% 0 14% 0)}25%{clip-path:inset(18% 0 60% 0)}50%{clip-path:inset(48% 0 34% 0)}75%{clip-path:inset(82% 0 6% 0)}100%{clip-path:inset(30% 0 52% 0)}}
+@keyframes shake{0%{transform:translate(0,0)}15%{transform:translate(-7px,3px)}30%{transform:translate(6px,-5px)}45%{transform:translate(-5px,-3px)}60%{transform:translate(7px,4px)}75%{transform:translate(-4px,5px)}100%{transform:translate(0,0)}}
+@keyframes copyflk{0%,96%,100%{opacity:inherit}97%{opacity:.12}98%{opacity:.55}}
+@keyframes collapse{0%{transform:translateY(0) scaleY(1) rotate(0)}30%{transform:translateY(2%) scaleY(.96)}100%{transform:translateY(120%) scaleY(.2) rotate(-3deg);opacity:.15}}
+@keyframes flashbang{0%{opacity:0}6%{opacity:.95}30%{opacity:0}100%{opacity:0}}
+@media(prefers-reduced-motion:reduce){
+  .grain,.scanbar,.glitch::before,.glitch::after,.scroll-hint,.ticker .run,.flick,.fuse-spark{animation:none!important;}
+  .rev{transition:opacity .3s ease;transform:none;filter:none;}
+  .glitching,.demo.boom .bldg{animation:none!important;}
+}
+@media(max-width:900px){
+  .rules-grid{grid-template-columns:repeat(2,1fr);}
+  .r-card:nth-child(1),.r-card:nth-child(2){grid-row:span 1;}
+  .r-card:nth-child(7){grid-column:span 1;}
+}
+@media(max-width:620px){.sec{padding:80px 6vw;}.rules-grid{grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body class="lockscroll">
+
+<div class="grain"></div><div class="scan"></div><div class="scanbar"></div><div class="vig"></div>
+
+<div class="fuse"><div class="fuse-fill" id="fuse"><div class="fuse-spark"></div></div></div>
+<div class="fuse-cap">ENDING ONE MINUTE AT A TIME</div>
+
+<nav class="idx"><ul id="idx-list"></ul></nav>
+
+<div class="sub" id="sub"><div class="sub-word" id="sub-word"></div></div>
+<svg class="crack" id="crack" viewBox="0 0 1000 700" preserveAspectRatio="none" style="display:none">
+  <g stroke="rgba(236,231,218,.7)" stroke-width="1.4" fill="none">
+    <path d="M500 0 L520 180 L470 300 L560 420 L500 700"/>
+    <path d="M520 180 L720 140 M520 180 L300 230 M470 300 L240 360 M560 420 L800 470 M470 300 L640 360"/>
+    <path d="M520 180 L640 60 M300 230 L120 180 M800 470 L940 540"/></g>
+</svg>
+
+<!-- ===== BOOT ===== -->
+<div class="boot" id="boot" onclick="finishBoot()">
+  <pre id="boot-pre"><span class="blk"></span></pre>
+  <div class="skip">[ click anywhere to enter the basement ]</div>
+</div>
+
+<!-- ===== HERO ===== -->
+<header class="hero">
+  <img class="hero-bg" src="img/rule-no1.jpg" alt="" fetchpriority="high">
+  <div class="hero-bg-tint"></div>
+  <div class="hero-cnt">
+    <span class="eyebrow flick">RULE 01 — YOU DO NOT TALK ABOUT FIGHT CLUB</span>
+    <h1 class="glitch" data-text="FIGHT CLUB">FIGHT CLUB</h1>
+    <p class="tag">An insomniac and a devil-may-care soap maker. A purposeless terminal for Project Mayhem —
+      no login, no newsletter, no reason. You met me at a very strange time in my life.</p>
+    <div class="hit-wrap">
+      <span class="hit-line">&ldquo;I want you to hit me as hard as you can.&rdquo;</span>
+      <button class="hit-btn" id="hit-btn">HIT ME</button>
+      <span class="bruise-ctr" id="bruise-ctr">BRUISES: 00</span>
+    </div>
+  </div>
+  <div class="hero-poster">
+    <img src="img/hero-poster.jpg" alt="Fight Club one-sheet">
+    <div class="pin">— NOW SHOWING · 1999 · DIR. DAVID FINCHER —</div>
+  </div>
+  <div class="scroll-hint">↓ DESCEND</div>
+</header>
+
+<!-- ===== SCENE: how I met Tyler ===== -->
+<section class="scene" id="meet">
+  <div class="lbx t"></div><div class="lbx b"></div>
+  <img class="blur" src="img/we-dont-talk.jpg" alt="">
+  <img class="poster" src="img/we-dont-talk.jpg" alt="The narrator and Tyler">
+  <div class="reel"><span>REEL 01 · 24FPS</span><span>SCENE 02 — SINGLE-SERVING</span></div>
+  <div class="cap">&ldquo;This is how I met Tyler Durden.&rdquo;</div>
+</section>
+
+<!-- ===== GUN MONOLOGUE ===== -->
+<section class="gun sec">
+  <svg class="gun-art rev" viewBox="0 0 560 150" fill="none" aria-hidden="true">
+    <g fill="currentColor"><path d="M40 60 H300 V92 H120 L108 130 H70 L80 92 H40 Z"/><rect x="300" y="64" width="120" height="20"/><circle cx="76" cy="74" r="9" fill="var(--ink)"/><rect x="408" y="66" width="14" height="16" fill="var(--blood)"/></g>
+    <path d="M422 74 H556" stroke="var(--blood)" stroke-width="2" stroke-dasharray="4 6"/>
+  </svg>
+  <p class="gun-q rev">WITH A GUN BARREL BETWEEN YOUR TEETH,<br>YOU SPEAK ONLY IN <span class="red">VOWELS.</span></p>
+  <p class="gun-sub rev">&ldquo;People are always asking me if I know Tyler Durden.&rdquo; — three minutes. This is it. Ground zero.</p>
+</section>
+
+<!-- ===== MANIFESTO ===== -->
+<section class="manifesto sec" id="manifesto">
+  <span class="eyebrow rev">// the things you used to define yourself</span>
+  <div class="mani-grid">
+    <div>
+      <div class="stack" id="manifesto-stack"></div>
+      <div class="kick rev">YOU ARE THE ALL-SINGING,<br>ALL-DANCING <em>CRAP</em> OF THE WORLD.</div>
+    </div>
+    <div class="evbag rev">
+      <div class="evbag-tag">● EVIDENCE</div>
+      <img src="img/tyler-dollar.jpg" alt="Defaced one-dollar bill — IN GOD WE TRUST scratched to read TYLER" loading="lazy">
+      <div class="evbag-meta"><span>ITEM <b>03</b></span><span>DEFACED CURRENCY</span><span>537 PAPER ST</span></div>
+      <div class="evbag-meta"><span>CASE <b>PM-1999</b></span><span><b>&ldquo;IN TYLER WE TRUST&rdquo;</b></span><span>DO NOT SPEND</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SCENE: is this the life ===== -->
+<section class="scene">
+  <div class="lbx t"></div><div class="lbx b"></div>
+  <img class="blur" src="img/tyler-smoke.jpg" alt="">
+  <img class="poster" src="img/tyler-smoke.jpg" alt="Tyler Durden">
+  <div class="reel"><span>REEL 01</span><span>SCENE 04 — THE OFFER</span></div>
+  <div class="cap">&ldquo;Is this the life you really want?&rdquo;</div>
+</section>
+
+<!-- ===== SUPPORT GROUPS + REEL ===== -->
+<section class="support sec" id="support">
+  <span class="eyebrow ash rev">// when people think you're dying, they really listen</span>
+  <h2 class="disp rev" style="font-size:clamp(34px,7vw,80px);margin:0 0 4px;line-height:.86">Support Groups</h2>
+  <p class="rev type" style="color:var(--ash);font-size:13px;max-width:560px;line-height:1.7">
+    Slide into the warm center where everyone hugs. This — for a while — was better than sleeping.</p>
+  <div class="sg-grid rev" id="sg-grid"></div>
+  <div class="reel-band rev">
+    <div class="filmstrip"><img src="img/screencaps.jpg" alt="Fight Club scenes contact sheet" loading="lazy"></div>
+    <div class="reel-txt">
+      <p>&ldquo;Her lie reflected my lie. Suddenly I felt nothing. I couldn&rsquo;t cry, so once again, I couldn&rsquo;t sleep.&rdquo;</p>
+      <div class="by">CONTACT SHEET · REEL 01 · FRAMES 014–017 — THE TOURIST &amp; MARLA SINGER</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== RULES ===== -->
+<section class="rules sec" id="rules">
+  <div class="rules-top">
+    <div>
+      <span class="eyebrow rev">// the eight rules</span>
+      <h2 class="disp rev" style="font-size:clamp(36px,8vw,96px);margin:0;line-height:.86">The Rules</h2>
+    </div>
+    <div class="rules-feature rev">
+      <img src="img/you-know-rules.jpg" alt="You know the rules" loading="lazy">
+      <div class="cap">— YOU KNOW THE RULES —</div>
+    </div>
+  </div>
+  <div class="rules-grid" id="rules-grid"></div>
+  <p class="rules-q rev">&ldquo;It&rsquo;s only after we&rsquo;ve lost everything that we&rsquo;re free to do anything.&rdquo;</p>
+</section>
+
+<!-- ===== CHEMICAL BURN ===== -->
+<section class="burn sec" id="burn">
+  <span class="eyebrow rev">// the lye kiss · 537 paper street · induction record</span>
+  <h2 class="disp rev" style="font-size:clamp(30px,6vw,68px);margin:0 0 6px;line-height:.86">Give Me Your Hand</h2>
+  <div class="burn-grid rev">
+    <!-- film cell -->
+    <div class="burn-cell" id="hand">
+      <div class="lbx t"></div><div class="lbx b"></div>
+      <div class="burn-scene">
+        <svg viewBox="0 0 300 280" fill="none" aria-hidden="true">
+          <path fill="currentColor" d="M70 270 C58 220 58 180 66 150 C58 120 70 96 84 100 C88 70 104 64 110 92 C112 60 130 56 134 90 C140 56 158 58 158 94 C166 66 184 70 180 104 C196 110 214 130 214 162 C214 210 206 244 196 270 Z"/>
+          <g stroke="#7a5d49" stroke-width="2" opacity=".5" fill="none"><path d="M96 120 v40"/><path d="M122 110 v52"/><path d="M148 112 v50"/><path d="M172 124 v40"/></g>
+        </svg>
+        <svg class="burn-bottle" viewBox="0 0 60 104" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <rect x="23" y="4" width="14" height="10"/>
+          <path d="M19 14 h22 l4 18 v60 a5 5 0 0 1 -5 5 h-20 a5 5 0 0 1 -5 -5 v-60 z"/>
+          <rect x="17" y="40" width="26" height="36" fill="currentColor" opacity=".12" stroke="none"/>
+          <path d="M30 50 l0 12 m-6 -6 l12 0" stroke-width="1.6"/>
+          <text x="30" y="92" text-anchor="middle" font-family="'Share Tech Mono',monospace" font-size="7" fill="currentColor" stroke="none" letter-spacing="1">LYE</text>
+        </svg>
+        <div class="burn-spot2" id="burn-spot"></div>
+        <div class="burn-scar" id="burn-scar"></div>
+      </div>
+      <div class="burn-sub type" id="burn-say">This is the greatest moment of your life.</div>
+    </div>
+    <!-- induction form -->
+    <div class="burn-form">
+      <h4>Chemical Burn<br>Induction Record</h4>
+      <div class="sub">PAPER STREET SOAP CO · NaOH · DO NOT RINSE · DO NOT PULL AWAY</div>
+      <div class="burn-line"><span class="k">SUBJECT</span><span class="v">SPACE MONKEY</span></div>
+      <div class="burn-line"><span class="k">SUBSTANCE</span><span class="v">LYE · NaOH</span></div>
+      <div class="burn-line"><span class="k">STAGE</span><span class="v" id="burn-stage-v">— GUILT —</span></div>
+      <div class="burn-line"><span class="k">SURRENDER</span><span class="v" id="burn-pct">0%</span></div>
+      <div class="burn-meter2"><i id="burn-meter-fill"></i><span id="burn-meter-txt">PRESS &amp; HOLD</span></div>
+      <p class="burn-hint2">› press &amp; hold the hand · do not pull away ‹</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== IDENTITY / ID CARD ===== -->
+<section class="identity sec" id="identity">
+  <span class="eyebrow rev" style="text-align:center">// identity card · the criterion collection · 1999</span>
+  <h2 class="disp rev" style="font-size:clamp(34px,7vw,80px);margin:0 0 8px;line-height:.86;text-align:center">You Are Not Special</h2>
+  <p class="rev mono" style="color:var(--ash);letter-spacing:.16em;font-size:12px;text-align:center;max-width:480px;margin:0 auto 34px">
+    Issued to a man who does not exist. DURDEN, TYLER · FC111793036.</p>
+  <div class="card-stage rev" id="card-stage">
+    <div class="card-3d" id="card-3d">
+      <div class="card-face cf">
+        <img src="img/id-card.jpg" alt="Tyler Durden Fight Club ID card">
+        <div class="cf-glare" id="cf-glare"></div>
+      </div>
+      <div class="card-face cb">
+        <div class="cb-stripe"></div>
+        <div class="cb-cnt">
+          <h4>PROPERTY OF PROJECT MAYHEM</h4>
+          <p>This card certifies the bearer surrendered name, history and fear upon induction. The bearer is now a space monkey. The bearer does not exist.</p>
+          <p>537 Paper Street · Bradford<br><em>You met me at a very strange time in my life.</em></p>
+          <div class="barcode" id="barcode"></div>
+          <div class="barcode-txt">FC 14793036 · AUTH ████ · THUMB ON FILE</div>
+        </div>
+        <div class="cb-thumb">
+          <svg viewBox="0 0 60 78" width="60" height="78" style="position:absolute;inset:0;opacity:.28">
+            <ellipse cx="30" cy="39" rx="24" ry="22" fill="none" stroke="#0c3b35" stroke-width=".9"/><ellipse cx="30" cy="39" rx="18" ry="17" fill="none" stroke="#0c3b35" stroke-width=".9"/><ellipse cx="30" cy="39" rx="12" ry="12" fill="none" stroke="#0c3b35" stroke-width=".9"/><ellipse cx="30" cy="39" rx="7" ry="7" fill="none" stroke="#0c3b35" stroke-width=".9"/><ellipse cx="30" cy="39" rx="3" ry="3" fill="none" stroke="#0c3b35" stroke-width=".9"/></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="card-hint">› drag to tilt · click to flip ‹</p>
+</section>
+
+<!-- ===== JACK ===== -->
+<section class="jack sec" id="jack">
+  <img class="bg-still film" src="img/jacks-list.jpg" alt="">
+  <div class="bg-tint blood"></div>
+  <div class="jack-grid">
+    <div>
+      <span class="eyebrow rev">// every part wants to speak</span>
+      <div class="jack-txt"><span class="jack-grey">I AM </span><span class="jack-red">JACK&rsquo;S </span><span id="jack-shown"></span><span class="caret">&nbsp;</span></div>
+      <p class="rev" style="margin-top:30px;font-family:'Oswald',sans-serif;font-weight:200;font-style:italic;color:var(--soap);font-size:clamp(14px,2vw,20px);max-width:520px">
+        When you have insomnia, nothing&rsquo;s real. Everything&rsquo;s far away. Everything&rsquo;s a copy of a copy of a copy.</p>
+    </div>
+    <div class="jack-coast rev">
+      <img src="img/jacks-coasters.jpg" alt="I am Jack's — quote coasters" loading="lazy">
+      <div class="cap">WASTED LIFE · INFLAMED SENSE OF REJECTION · BROKEN HEART · COMPLETE LACK OF SURPRISE</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== COPY / INSOMNIA ===== -->
+<section class="copy sec" id="copy">
+  <span class="eyebrow ash rev" style="text-align:center;display:block">// VHS generation loss</span>
+  <div class="copy-head rev">EVERYTHING IS A COPY OF A COPY OF A COPY</div>
+  <div class="copy-grid" style="margin-top:40px">
+    <div class="crt rev">
+      <div class="crt-screen">
+        <img src="img/tyler-ascii.jpg" alt="Degraded portrait of Tyler on a CRT screen" loading="lazy">
+        <div class="crt-bulge"></div>
+        <div class="crt-osd"><span class="rec">● REC</span> · CH 03 · SP · TRACKING</div>
+      </div>
+      <div class="crt-base"><div class="crt-brand">PAPER ST · TV</div><div class="crt-knobs"><i></i><i></i></div></div>
+    </div>
+    <div id="copy-lines"></div>
+  </div>
+</section>
+
+<!-- ===== CONSUME ===== -->
+<section class="consume sec" id="consume">
+  <span class="eyebrow gold rev">// advertising has us chasing cars and clothes</span>
+  <div class="consume-top">
+    <div>
+      <h2 class="rev">WE ARE <span class="out">ALL</span><br>CONSUMERS</h2>
+      <p class="rev type" style="color:#9fc0d6;font-size:13px;max-width:520px;line-height:1.7;margin-top:14px">
+        What kind of dining set defines me as a person? We used to read pornography. Now it was the Horchow Collection.</p>
+    </div>
+    <div class="mag rev">
+      <div class="mag-img">
+        <img src="img/own-you.jpg" alt="The things you own end up owning you" loading="lazy">
+        <div class="mag-masthead">möbel</div>
+        <div class="mag-cover">
+          <span class="l">The <b>nesting instinct</b> — what your sofa says about your soul</span>
+          <span class="l">47 ways to define yourself by <b>furniture</b></span>
+          <span class="l">Special: the clever coffee table that owns you back</span>
+        </div>
+        <div class="mag-price"><div class="bc" id="mag-bc"></div><div class="pp">$—.99 · FALL ISSUE</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="ticker rev"><span class="run">NESTING INSTINCT · KHAKIS · SINGLE-SERVING FRIENDS · DUVET · CLEVER SHELVING · CLEAN FOR ITS OWN SAKE · THE THINGS YOU OWN END UP OWNING YOU · NESTING INSTINCT · KHAKIS · SINGLE-SERVING FRIENDS · DUVET · CLEVER SHELVING · CLEAN FOR ITS OWN SAKE · THE THINGS YOU OWN END UP OWNING YOU · </span></div>
+  <div class="catalog rev" id="catalog"></div>
+  <p class="consq rev">&ldquo;The things you own end up owning you.&rdquo;</p>
+</section>
+
+<!-- ===== SCENE: nobody cares ===== -->
+<section class="scene">
+  <div class="lbx t"></div><div class="lbx b"></div>
+  <img class="blur" src="img/nobody-cares.jpg" alt="">
+  <img class="poster" src="img/nobody-cares.jpg" alt="Nobody cares unless you win or die">
+  <div class="reel"><span>REEL 02</span><span>SCENE 09 — PROJECT MAYHEM</span></div>
+  <div class="cap">&ldquo;Nobody cares unless you win or die.&rdquo;</div>
+</section>
+
+<!-- ===== PROJECT MAYHEM — REDACTED NEWSPAPER ===== -->
+<section class="news sec" id="mayhem">
+  <span class="eyebrow rev">// declassified — mostly · front page, as recovered</span>
+  <p class="news-lead rev">Members address one another only as space monkeys. Individual identity is actively suppressed.
+    A fallen operative is honored aloud: <em>his name is Robert Paulson.</em> The press got hold of one page. The rest stays in the basement.</p>
+
+  <div class="newsstand rev">
+    <article class="news newspaper" id="newspaper">
+      <div class="np-stamp cls">Classified</div>
+      <div class="np-coffee"></div>
+
+      <div class="np-rail"><span>VOL. CCXLI · No. 88</span><span>★ ★ ★ CITY FINAL ★ ★ ★</span><span>WEATHER: ASH, FALLING</span></div>
+      <h1 class="np-masthead">The Metropolitan Daily Press</h1>
+      <div class="np-meta">
+        <span>FRIDAY, OCTOBER 15, 1999</span>
+        <span>&ldquo;ALL THE NEWS THEY&rsquo;LL LET US PRINT&rdquo;</span>
+        <span>PRICE 35¢</span>
+      </div>
+
+      <div class="np-banner">
+        <div class="np-kicker">Underground Society Linked To Nationwide Vandalism</div>
+        <div class="np-head">Project Mayhem</div>
+        <div class="np-sub">Police Hunt For Leaderless Criminal Organization Spreading Across <span class="rd" data-real="NINE">████</span> Cities</div>
+      </div>
+      <div class="np-byline">By <span class="rd" data-real="SHAUN WATSON">█████████████</span> · Staff Correspondent · Filed from <span class="rd" data-real="537 PAPER ST">████████████</span></div>
+
+      <div class="np-cols">
+        <figure class="np-figure">
+          <img src="img/own-you.jpg" alt="Suspect" loading="lazy">
+          <figcaption class="np-figcap">SUBJECT — believed to operate under the alias &ldquo;<span class="rd" data-real="TYLER DURDEN">█████████████</span>.&rdquo; Considered unremarkable. Considered everywhere.</figcaption>
+        </figure>
+
+        <p class="lead">Police are on the hunt for a loosely organized gang waging a citywide campaign of vandalism, arson and mischief. Investigators have traced at least <span class="rd" data-real="FIVE">████</span> separate incidents to the same source — an organization that calls itself only &ldquo;Project Mayhem.&rdquo;</p>
+
+        <p>The group has been leaving their mark all over the city: corporate art demagnetized, franchise coffee bars flooded, a piece of <span class="rd" data-real="CORPORATE">█████████</span> statuary toppled into a downtown fountain. No member has yet been charged. Those detained give the same name when booked: <span class="rd" data-real="ROBERT PAULSON">█████████████</span>.</p>
+
+        <div class="np-pull">&ldquo;The things you own end up owning you.&rdquo;</div>
+
+        <p>Recruitment, sources say, runs through an associated recreational fighting society operating in the basements of bars after closing. Inductees reportedly surrender name, history and <span class="rd" data-real="FEAR">████</span> at the door, and are forbidden to discuss the society at all — the first and second of its <span class="rd" data-real="EIGHT">█████</span> rules.</p>
+
+        <div class="np-box">
+          <h5>Survival Rates Grow For Testicular Cancer</h5>
+          <p style="font-size:11px;line-height:1.5;margin:0;font-family:Georgia,serif">Support groups report record attendance. One regular, a former champion bodybuilder, was remembered by fellow members only as &ldquo;<span class="rd" data-real="BIG BOB">██████</span>.&rdquo;</p>
+          <div class="src">— HEALTH DESK, PAGE 7</div>
+        </div>
+
+        <p>Cadres are believed to reside at a condemned property on <span class="rd" data-real="PAPER">█████</span> Street and to finance their operations through the sale of luxury <span class="rd" data-real="SOAP">████</span>, sold door-to-door and to upscale department stores at premium prices.</p>
+
+        <div class="np-box">
+          <h5>Single Frame Of Pornography Spliced Into Family Matinee</h5>
+          <p style="font-size:11px;line-height:1.5;margin:0;font-family:Georgia,serif">Theatre patrons reported &ldquo;feeling sick and didn&rsquo;t know why.&rdquo; A projectionist is being sought for questioning.</p>
+          <div class="src">— ARTS, PAGE 11</div>
+        </div>
+
+        <p>A memorandum recovered from the scene — stamped <span class="rd" data-real="TOP SECRET">██████████</span> — lists committees for Arson, Assault, Mischief and <span class="rd" data-real="MISINFORMATION">█████████████</span>. The final committee&rsquo;s name was withheld. Authorities warn the public the organization may have no single leader. &ldquo;It is everywhere,&rdquo; one detective said, &ldquo;and it is <span class="rd" data-real="YOU">███</span>.&rdquo;</p>
+
+        <p style="font-size:11px;color:#3a352c">CONTINUED ON PAGE <span class="rd" data-real="A6">██</span> · See also: &ldquo;What Is Fight Club?&rdquo;, and an editorial, &ldquo;On A Long Enough Timeline.&rdquo;</p>
+      </div>
+
+      <div class="np-classifieds">
+        <div class="np-ad"><div class="ah">Fighting Is Inevitable</div><div class="ap">First night? You have to fight. Basement. After close. No shirts, no shoes.</div></div>
+        <div class="np-ad"><div class="ah">Paper Street Soap Co.</div><div class="ap">All natural · handmade · $20/bar. Sold back to the very people it came from.</div></div>
+        <div class="np-ad"><div class="ah">Lou&rsquo;s Tavern</div><div class="ap">Cold beer. Quiet basement available nightly. Inquire within. Don&rsquo;t ask twice.</div></div>
+        <div class="np-ad box"><div class="ah">Remaining<br>Men Together</div><div class="ap">You are not alone. Tue · First Methodist.</div></div>
+      </div>
+    </article>
+
+    <div class="declass-row">
+      <button class="declass-btn" id="declass-btn">⟲ ATTEMPT DECLASSIFICATION</button>
+      <div class="denied" id="denied-msg"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== HOMEWORK ===== -->
+<section class="homework sec" id="homework">
+  <span class="eyebrow gold rev">// project mayhem · committee for human sacrifice</span>
+  <h2 class="disp rev" style="font-size:clamp(32px,6.5vw,72px);margin:0 0 6px;line-height:.86">Tonight&rsquo;s Homework</h2>
+  <div class="hw-card rev">
+    <div class="hw-head">▌ ASSIGNMENT — ISSUED TO SPACE MONKEY <span id="hw-id">01</span></div>
+    <p class="hw-text type" id="hw-text">Press the button. Receive your assignment. Ask no questions.</p>
+    <button class="hw-btn" id="hw-btn">RECEIVE ASSIGNMENT</button>
+    <div class="hw-count" id="hw-count">assignments issued: 0</div>
+  </div>
+</section>
+
+<!-- ===== RAYMOND ===== -->
+<section class="raymond sec">
+  <span class="eyebrow rev">// human sacrifice · the back of a convenience store</span>
+  <div class="ray-wrap rev">
+    <div class="cctv rev">
+      <img src="img/yesterday-tomorrow.jpg" alt="Security footage — convenience store rear entrance" loading="lazy">
+      <div class="cctv-ui">
+        <div class="tl">CAM 04 · REAR ENTRANCE</div>
+        <div class="tr"><b></b> REC</div>
+        <div class="cross"></div>
+        <div class="bl">15 OCT 1999 · 02:47:13</div>
+        <div class="br">PAPER ST SECURITY · NTSC</div>
+      </div>
+    </div>
+    <div>
+      <p class="ray-q">YOUR DINNER WILL TASTE <span class="red">BETTER</span> THAN ANY MEAL YOU&rsquo;VE EVER EATEN.</p>
+      <p class="ray-p type">Raymond K. Hessel. You were going to be a veterinarian — the form was too much, so you quit. Tyler kept your license. If you&rsquo;re not on your way to becoming one in six weeks, you&rsquo;ll be dead. Tomorrow will be the most beautiful day of Raymond K. Hessel&rsquo;s life.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SCENE: let go ===== -->
+<section class="scene">
+  <div class="lbx t"></div><div class="lbx b"></div>
+  <img class="blur" src="img/control-letgo.jpg" alt="">
+  <img class="poster" src="img/control-letgo.jpg" alt="Stop trying to control everything and just let go">
+  <div class="reel"><span>REEL 03</span><span>SCENE 14 — THE WHEEL</span></div>
+  <div class="cap">&ldquo;Stop trying to control everything and just let go.&rdquo;</div>
+</section>
+
+<!-- ===== SOAP ===== -->
+<section class="soap-sec sec" id="soap">
+  <span class="eyebrow rev">// we make soap · 537 paper street</span>
+  <div class="soap-grid" style="margin-top:24px">
+    <div>
+      <svg class="soap-emblem rev" viewBox="0 0 400 300" fill="none">
+        <text x="200" y="44" text-anchor="middle" fill="currentColor" font-family="'Special Elite',serif" font-size="34" letter-spacing="1">Paper Street Soap Co.</text>
+        <ellipse cx="200" cy="160" rx="150" ry="78" stroke="currentColor" stroke-width="1.4"/>
+        <g stroke="currentColor" stroke-width="1.3" fill="none">
+          <path d="M150 200 Q140 150 162 132 Q150 120 130 124 Q108 130 104 158 Q102 184 120 200"/><path d="M120 150 Q90 140 78 120 Q104 138 122 138"/><circle cx="158" cy="120" r="9"/>
+          <path d="M250 200 Q260 150 238 132 Q250 120 270 124 Q292 130 296 158 Q298 184 280 200"/><path d="M280 150 Q310 140 322 120 Q296 138 278 138"/><circle cx="242" cy="120" r="9"/>
+          <path d="M165 196 Q200 214 235 196 L228 178 L172 178 Z"/><path d="M200 178 L200 150 M188 160 Q200 146 212 160"/><path d="M196 138 Q200 128 204 138"/>
+        </g>
+        <text x="200" y="262" text-anchor="middle" fill="currentColor" font-family="'Special Elite',serif" font-style="italic" font-size="16">All Natural · Handmade</text>
+        <text x="200" y="284" text-anchor="middle" fill="currentColor" font-family="'Share Tech Mono',monospace" font-size="10" letter-spacing="2" opacity=".8">537 PAPER STREET · BRADFORD · (288) 555-0153</text>
+      </svg>
+      <p class="soap-txt rev">The first soap was made from the ashes of heroes. We make ours by hand, from the finest things we can find — rendered, salted, cured. Then sold back at a fair price to the very people it came from. There is a poetry to it, if you don&rsquo;t think about it too hard.</p>
+      <p class="soap-meta rev">$20 A BAR · ALL NATURAL · HANDMADE · 537 PAPER STREET</p>
+    </div>
+    <div class="soap-card-img rev">
+      <img src="img/soap-card.jpg" alt="Paper Street Soap Co. business card — the original prop">
+      <div class="cap">▌ THE ORIGINAL CARD — TYLER DURDEN · 537 PAPER STREET · BRADFORD</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== THE REVEAL ===== -->
+<section class="reveal sec" id="reveal">
+  <img class="bg-still film" src="img/if-not-me.jpg" alt="">
+  <div class="bg-tint blood"></div>
+  <div class="rv-inner">
+    <span class="eyebrow rev">// slowly, the realization comes</span>
+    <p class="rv-q rev">ALL THE WAYS YOU WISH YOU COULD BE…<br><span class="red">THAT&rsquo;S ME.</span></p>
+    <p class="rv-sub rev">I look like you want to look. I am smart, capable, and most importantly, I am free in all the ways that you are not. If not me — then who?</p>
+    <button class="rv-btn rev" id="rv-btn">ARE YOU TYLER DURDEN?</button>
+    <div class="rv-after" id="rv-after"></div>
+  </div>
+</section>
+
+<!-- ===== DEMOLITION FINALE ===== -->
+<section class="demo sec" id="demo">
+  <div class="boom-flash"></div>
+  <span class="eyebrow rev">// the end of the world · 08:14 pm</span>
+  <p class="demo-q rev" id="demo-q">&ldquo;You met me at a very strange time in my life.&rdquo;</p>
+  <div class="demo-sky rev">
+    <svg viewBox="0 0 1000 360" fill="none" aria-hidden="true">
+      <rect x="0" y="350" width="1000" height="10" fill="#0c0d10"/>
+      <g fill="#15161b" stroke="#23242b" stroke-width="2">
+        <g class="bldg b1"><rect x="60" y="140" width="120" height="210"/><g fill="#0a0b0e"><rect x="76" y="158" width="18" height="22"/><rect x="106" y="158" width="18" height="22"/><rect x="136" y="158" width="18" height="22"/><rect x="76" y="196" width="18" height="22"/><rect x="106" y="196" width="18" height="22"/><rect x="136" y="196" width="18" height="22"/><rect x="76" y="234" width="18" height="22"/><rect x="136" y="234" width="18" height="22"/></g></g>
+        <g class="bldg b2"><rect x="210" y="80" width="110" height="270"/><g fill="#0a0b0e"><rect x="226" y="100" width="16" height="20"/><rect x="254" y="100" width="16" height="20"/><rect x="282" y="100" width="16" height="20"/><rect x="226" y="136" width="16" height="20"/><rect x="282" y="136" width="16" height="20"/><rect x="226" y="172" width="16" height="20"/><rect x="254" y="172" width="16" height="20"/><rect x="282" y="172" width="16" height="20"/></g></g>
+        <g class="bldg b3"><rect x="350" y="40" width="130" height="310"/><g fill="#0a0b0e"><rect x="368" y="64" width="18" height="22"/><rect x="400" y="64" width="18" height="22"/><rect x="432" y="64" width="18" height="22"/><rect x="368" y="104" width="18" height="22"/><rect x="432" y="104" width="18" height="22"/><rect x="368" y="144" width="18" height="22"/><rect x="400" y="144" width="18" height="22"/><rect x="432" y="144" width="18" height="22"/></g></g>
+        <g class="bldg b4"><rect x="510" y="110" width="120" height="240"/><g fill="#0a0b0e"><rect x="528" y="130" width="18" height="22"/><rect x="560" y="130" width="18" height="22"/><rect x="592" y="130" width="18" height="22"/><rect x="528" y="168" width="18" height="22"/><rect x="592" y="168" width="18" height="22"/></g></g>
+        <g class="bldg b5"><rect x="660" y="60" width="120" height="290"/><g fill="#0a0b0e"><rect x="678" y="84" width="18" height="22"/><rect x="710" y="84" width="18" height="22"/><rect x="742" y="84" width="18" height="22"/><rect x="678" y="124" width="18" height="22"/><rect x="742" y="124" width="18" height="22"/><rect x="678" y="164" width="18" height="22"/><rect x="710" y="164" width="18" height="22"/></g></g>
+        <g class="bldg b1"><rect x="810" y="150" width="130" height="200"/><g fill="#0a0b0e"><rect x="828" y="170" width="18" height="22"/><rect x="860" y="170" width="18" height="22"/><rect x="892" y="170" width="18" height="22"/><rect x="828" y="208" width="18" height="22"/><rect x="892" y="208" width="18" height="22"/></g></g>
+      </g>
+    </svg>
+  </div>
+  <div class="detonator rev">
+    <div class="det-top">
+      <div class="det-label">PROJECT MAYHEM // <b>DEMOLITIONS COMMITTEE</b><br>DET-9 · TEN-BUILDING BLAST SEQUENCE</div>
+      <div class="det-readout" id="det-readout">T—:——</div>
+    </div>
+    <div class="det-mid">
+      <div class="det-plunger" id="det-plunger">
+        <div class="knob"></div><div class="shaft"></div><div class="box"></div>
+        <div class="lbl">PUSH THE BUTTON</div>
+      </div>
+      <div class="det-keys">
+        <div class="det-led" id="det-led-arm"><i></i> ARMED</div>
+        <div class="det-led" id="det-led-live"><i></i> LIVE</div>
+        <button class="det-toggle" id="det-toggle">▮ SAFETY: ON</button>
+      </div>
+    </div>
+    <svg class="det-wire" viewBox="0 0 360 30" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+      <path d="M0 24 q40 -22 80 0 t80 0 t80 0 t80 0"/>
+    </svg>
+  </div>
+  <figure class="endstrip" id="demo-ending">
+    <img src="img/where-is-my-mind.jpg" alt="Where is my mind" loading="lazy">
+    <img src="img/ending-art.jpg" alt="Holding hands as the buildings come down" loading="lazy">
+  </figure>
+  <figcaption class="demo-q" id="demo-cap" style="min-height:1em;margin-top:14px"></figcaption>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="foot">
+  <div class="big flick">THIS IS YOUR LIFE,<br>AND IT&rsquo;S ENDING ONE<br>MINUTE AT A TIME.</div>
+  <p class="q">&ldquo;On a long enough timeline, the survival rate for everyone drops to zero.&rdquo;</p>
+  <div style="margin-top:40px"><span class="regmark"></span><span class="regmark"></span><span class="regmark"></span></div>
+  <div class="foot-meta">
+    THIS WEBSITE HAS NO PURPOSE · BUILT TO SCRATCH AN ITCH<br>
+    AN UNAUTHORIZED HOMAGE · NOT AFFILIATED WITH ANYONE — LEAST OF ALL YOURSELF<br>
+    © THE FIRST RULE · YOU MET ME AT A VERY STRANGE TIME IN MY LIFE
+  </div>
+</footer>
+
+<script>
+/* ===================== FIGHT CLUB // vanilla JS ===================== */
+const reduceMotion=window.matchMedia("(prefers-reduced-motion:reduce)").matches;
+
+const NAV=[["rules","RULES"],["burn","LYE"],["identity","ID"],["jack","JACK"],["consume","CONSUME"],["mayhem","MAYHEM"],["homework","HOMEWORK"],["soap","SOAP"],["demo","END"]];
+const MANIFESTO=["You are not your <b>job</b>.","You are not how much <b>money</b> you have in the bank.","You are not the car you <b>drive</b>.","You are not the contents of your <b>wallet</b>.","You are not your <b>khakis</b>."];
+const SUPPORT=[
+  {ic:"lungs",h:"Remaining Men Together",p:"Testicular cancer survivors. This is where you met Bob. Bob had bitch tits. Between those huge sweating tits, you cried.",w:"BASEMENT · FIRST METHODIST · TUE"},
+  {ic:"brain",h:"Onward & Upward",p:"Brain parasites. You weren't dying — but these people, circling the drain, were the only thing that let you sleep.",w:"GROUP ROOM B · THU"},
+  {ic:"blood",h:"Free & Clear",p:"Blood parasites. A new group every night of the week. Single-serving salvation, one stranger at a time.",w:"REC HALL · WED"},
+  {ic:"liver",h:"Hope · Sickle Cell",p:"When people think you're dying, they really listen — instead of just waiting for their turn to speak.",w:"CHAPEL ANNEX · MON"}];
+const RULES=["You do not talk about Fight Club.","You do NOT talk about Fight Club.","If someone says stop, goes limp, or taps out — the fight is over.","Only two guys to a fight.","One fight at a time.","No shirts. No shoes.","Fights go on as long as they have to.","If this is your first night, you HAVE to fight."];
+const BURN_STAGES=["This is the greatest moment of your life.","Stay with the pain. Don't shut this out.","This is your pain. This is your burning hand. It's right here.","First you have to know — not fear, know — that someday you're gonna die.","It's only after we've lost everything that we're free to do anything.","Congratulations. You're a step closer to hitting bottom."];
+const JACKS=["MEDULLA OBLONGATA","COMPLETE LACK OF SURPRISE","RAGING BILE DUCT","COLD SWEAT","SMIRKING REVENGE","INFLAMED SENSE OF REJECTION","WASTED LIFE","BROKEN HEART","COLON"];
+const SUB_WORDS=["TYLER","MAYHEM","SOAP","COPY","WAKE UP","YOU","∅","PAIN","HIS NAME IS ROBERT PAULSON"];
+const CATALOG=[
+  {code:"ÖRSKÄ 90.214",nm:"Duvet",ds:"Goose-down. The kind of thing you buy to feel complete.",pr:"$—",draw:"duvet"},
+  {code:"TÖDELL 14.07",nm:"Yin-Yang Table",ds:"Coffee table that defines you as a person.",pr:"$—",draw:"table"},
+  {code:"KLIPSK 02.99",nm:"Clever Shelving",ds:"Holds the things that hold you.",pr:"$—",draw:"shelf"},
+  {code:"VILD 71.40",nm:"Paper Lamp",ds:"Soft. Disposable. Like a single-serving sun.",pr:"$—",draw:"lamp"},
+  {code:"STREBO 6.18",nm:"Nesting Sofa",ds:"Self-assembly required. Soul not included.",pr:"$—",draw:"sofa"},
+  {code:"OHÖ 00.00",nm:"Khaki Life",ds:"Pre-washed. Pre-faded. Pre-decided.",pr:"PRICELESS",draw:"khaki"}];
+const HOMEWORK=["Start a fight with a total stranger. And lose.","Make a human sacrifice. Return the license. Watch a dead man choose to live.","Steal the fat. Render it down. Sell their own asses back to them as soap.","Spray-paint a smiley face on a corporate building. Make it grin.","Loosen the lug nuts on every car in the lot. Optional. Encouraged.","Feed the pigeons in the plaza outside the symphony. Laxatives optional.","Recruit one space monkey. Ask no questions. Take no name.","Demagnetize every video tape in the rental store.","Erase the debt record. Reset everyone back to zero. Even the score.","Splice a single frame where it does the most damage. Nobody knows. But they saw it."];
+const BOOT_LINES=["> establishing connection to paper street . . .","> the first rule: you do not talk about this website","> the second rule: YOU DO NOT TALK ABOUT THIS WEBSITE","> rendering fat into soap . . . ok","> you are not your job. you are not your browser history.","> this site has no purpose. neither, arguably, do you. welcome."];
+
+function icon(n){const I={
+  lips:'<path d="M10 50 Q50 20 90 50 Q50 80 10 50Z" fill="none" stroke="currentColor" stroke-width="4"/><line x1="50" y1="24" x2="50" y2="76" stroke="currentColor" stroke-width="4"/><line x1="34" y1="30" x2="34" y2="70" stroke="currentColor" stroke-width="3"/><line x1="66" y1="30" x2="66" y2="70" stroke="currentColor" stroke-width="3"/>',
+  nolips:'<path d="M10 50 Q50 20 90 50 Q50 80 10 50Z" fill="none" stroke="currentColor" stroke-width="4"/><line x1="14" y1="84" x2="86" y2="16" stroke="currentColor" stroke-width="5"/>',
+  stop:'<path d="M30 50 V30 a6 6 0 0 1 12 0 V46 M42 44 V26 a6 6 0 0 1 12 0 V46 M54 46 V30 a6 6 0 0 1 12 0 V52 M66 48 V36 a6 6 0 0 1 12 0 V66 a18 18 0 0 1-18 18 H46 a18 18 0 0 1-16-10 L24 64" fill="none" stroke="currentColor" stroke-width="4"/>',
+  two:'<circle cx="34" cy="40" r="12" fill="none" stroke="currentColor" stroke-width="4"/><circle cx="66" cy="40" r="12" fill="none" stroke="currentColor" stroke-width="4"/><path d="M18 84 q16 -24 32 0 M50 84 q16 -24 32 0" fill="none" stroke="currentColor" stroke-width="4"/>',
+  one:'<text x="50" y="72" text-anchor="middle" font-family="Anton,Impact" font-size="72" fill="currentColor">1</text>',
+  shirt:'<path d="M30 26 L20 40 L30 50 V80 H70 V50 L80 40 L70 26 Q50 40 30 26Z" fill="none" stroke="currentColor" stroke-width="4"/><line x1="16" y1="84" x2="84" y2="16" stroke="currentColor" stroke-width="5"/>',
+  clock:'<circle cx="50" cy="52" r="30" fill="none" stroke="currentColor" stroke-width="4"/><path d="M50 36 V52 L64 60" fill="none" stroke="currentColor" stroke-width="4"/><line x1="50" y1="14" x2="50" y2="22" stroke="currentColor" stroke-width="4"/>',
+  fist:'<path d="M28 56 V44 a6 6 0 0 1 12 0 M40 44 V36 a6 6 0 0 1 12 0 V46 M52 46 V38 a6 6 0 0 1 12 0 V50 M64 50 V46 a6 6 0 0 1 12 0 V64 a16 16 0 0 1-16 16 H44 a16 16 0 0 1-16-16 V56 Z" fill="none" stroke="currentColor" stroke-width="4"/>',
+  lungs:'<path d="M50 20 V52 M50 30 H40 M50 30 H60" stroke="currentColor" stroke-width="4" fill="none"/><path d="M40 34 Q22 44 24 70 Q26 84 40 80 Q46 76 46 60 Q46 44 40 34Z" fill="none" stroke="currentColor" stroke-width="4"/><path d="M60 34 Q78 44 76 70 Q74 84 60 80 Q54 76 54 60 Q54 44 60 34Z" fill="none" stroke="currentColor" stroke-width="4"/>',
+  brain:'<path d="M40 30 Q26 30 26 44 Q16 50 22 62 Q20 76 36 78 Q40 86 50 82 V30 Q46 26 40 30Z" fill="none" stroke="currentColor" stroke-width="4"/><path d="M60 30 Q74 30 74 44 Q84 50 78 62 Q80 76 64 78 Q60 86 50 82" fill="none" stroke="currentColor" stroke-width="4"/>',
+  blood:'<path d="M50 18 Q72 50 72 66 a22 22 0 0 1-44 0 Q28 50 50 18Z" fill="none" stroke="currentColor" stroke-width="4"/>',
+  liver:'<path d="M22 44 Q50 32 80 42 Q82 64 60 76 Q40 82 30 68 Q20 58 22 44Z" fill="none" stroke="currentColor" stroke-width="4"/><path d="M52 40 Q58 56 50 74" fill="none" stroke="currentColor" stroke-width="3"/>'};
+  return `<svg viewBox="0 0 100 100">${I[n]||''}</svg>`;}
+const RULE_ICONS=["lips","nolips","stop","two","one","shirt","clock","fist"];
+
+function furniture(n){const F={
+  duvet:'<rect x="10" y="40" width="100" height="44" rx="6"/><path d="M10 52 h100 M24 40 v44 M44 40 v44 M64 40 v44 M84 40 v44"/><path d="M118 50 l8 -8 m-8 8 l8 8" stroke-width="2"/>',
+  table:'<ellipse cx="60" cy="40" rx="44" ry="14"/><circle cx="60" cy="40" r="9"/><path d="M60 31 a9 9 0 0 1 0 18" fill="currentColor" opacity=".25"/><line x1="22" y1="46" x2="22" y2="86"/><line x1="98" y1="46" x2="98" y2="86"/><line x1="60" y1="54" x2="60" y2="90"/>',
+  shelf:'<rect x="22" y="16" width="76" height="84"/><line x1="22" y1="44" x2="98" y2="44"/><line x1="22" y1="72" x2="98" y2="72"/><line x1="60" y1="16" x2="60" y2="100"/><rect x="30" y="22" width="10" height="16" opacity=".3" fill="currentColor"/><rect x="68" y="50" width="10" height="16" opacity=".3" fill="currentColor"/>',
+  lamp:'<path d="M40 24 H80 L92 56 H28 Z"/><line x1="60" y1="56" x2="60" y2="92"/><path d="M44 92 H76"/><circle cx="60" cy="20" r="4"/>',
+  sofa:'<path d="M14 56 v24 h92 v-24"/><path d="M14 56 q0 -16 14 -16 h64 q14 0 14 16"/><path d="M30 56 q0 -8 8 -8 h44 q8 0 8 8"/><line x1="60" y1="48" x2="60" y2="68"/><line x1="20" y1="80" x2="20" y2="92"/><line x1="100" y1="80" x2="100" y2="92"/>',
+  khaki:'<path d="M40 18 h40 v18 l8 60 h-22 l-6 -50 -6 50 h-22 l8 -60 Z"/><line x1="40" y1="30" x2="80" y2="30"/><line x1="60" y1="36" x2="60" y2="60"/>'};
+  return `<svg viewBox="0 0 130 110" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round">${F[n]||''}</svg>`;}
+
+/* build */
+document.getElementById("idx-list").innerHTML=NAV.map((n,i)=>`<li onclick="jump('${n[0]}')"><span>${String(i+1).padStart(2,"0")}</span> ${n[1]}</li>`).join("");
+document.getElementById("manifesto-stack").innerHTML=MANIFESTO.map(m=>`<span class="rev">${m}</span>`).join("");
+document.getElementById("sg-grid").innerHTML=SUPPORT.map(s=>`<div class="sg-card"><div class="ic">${icon(s.ic)}</div><h3>${s.h}</h3><p>${s.p}</p><div class="when">${s.w}</div></div>`).join("");
+document.getElementById("rules-grid").innerHTML=RULES.map((r,i)=>`<div class="r-card rev" style="transition-delay:${i*70}ms"><span class="r-num">${String(i+1).padStart(2,"0")}</span><p class="r-txt">${r}</p><div class="r-ic">${icon(RULE_ICONS[i])}</div></div>`).join("");
+let copyHTML="";for(let i=0;i<10;i++){const t=i/9;copyHTML+=`<div style="font-family:'Special Elite',monospace;text-transform:uppercase;color:#ece7da;margin:7px 0;opacity:${1-t*0.82};filter:blur(${t*2.4}px);font-size:clamp(13px,${2.4-t*0.5}vw,${24-t*7}px);transform:skewX(${(t*7).toFixed(2)}deg) translateX(${Math.sin(i)*t*20}px);letter-spacing:${0.26+t*0.25}em;text-shadow:${(t*2).toFixed(1)}px 0 0 rgba(200,35,42,${t*0.4}),-${(t*2).toFixed(1)}px 0 0 rgba(124,198,188,${t*0.4});animation:copyflk ${4+i*0.5}s steps(1) ${i*0.2}s infinite">OF A COPY</div>`;}
+document.getElementById("copy-lines").innerHTML=copyHTML;
+document.getElementById("catalog").innerHTML=CATALOG.map(c=>`<div class="cat"><div class="draw">${furniture(c.draw)}</div><div class="info"><div class="code">${c.code}</div><div class="nm">${c.nm}</div><div class="ds">${c.ds}</div><div class="pr">${c.pr}</div></div></div>`).join("");
+document.getElementById("barcode").innerHTML=Array.from({length:46},(_,i)=>`<i style="width:${((i*37)%5)+1}px"></i>`).join("");
+const magBc=document.getElementById("mag-bc");if(magBc)magBc.innerHTML=Array.from({length:30},(_,i)=>`<i style="width:${((i*53)%3)+1}px"></i>`).join("");
+
+/* reveals */
+const revObs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");revObs.unobserve(e.target);}}),{threshold:.1});
+document.querySelectorAll(".rev").forEach(el=>revObs.observe(el));
+
+/* active nav */
+const navObs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const i=NAV.findIndex(n=>n[0]===e.target.id);document.querySelectorAll(".idx li").forEach(li=>li.classList.remove("on"));if(i>=0)document.querySelectorAll(".idx li")[i]?.classList.add("on");}}),{threshold:.4});
+NAV.forEach(n=>{const el=document.getElementById(n[0]);if(el)navObs.observe(el);});
+
+/* fuse */
+const fuse=document.getElementById("fuse");
+addEventListener("scroll",()=>{const h=document.documentElement.scrollHeight-innerHeight;fuse.style.width=(h>0?(scrollY/h)*100:0)+"%";},{passive:true});
+
+/* boot */
+const bootEl=document.getElementById("boot"),bootPre=document.getElementById("boot-pre");let bootDone=false;
+function finishBoot(){if(bootDone)return;bootDone=true;bootEl.classList.add("gone");document.body.classList.remove("lockscroll");setTimeout(()=>{bootEl.style.display="none";if(!reduceMotion)startSubs();},620);}
+(function(){let li=0,lines=[];const t=setInterval(()=>{lines.push(BOOT_LINES[li++]);bootPre.innerHTML=lines.join("\n")+'<span class="blk"></span>';if(li>=BOOT_LINES.length){clearInterval(t);setTimeout(finishBoot,1300);}},480);})();
+
+/* subliminal */
+const subEl=document.getElementById("sub"),subWord=document.getElementById("sub-word");
+function flash(w){if(reduceMotion)return;subWord.textContent=w;subEl.classList.add("show");setTimeout(()=>subEl.classList.remove("show"),95);}
+function startSubs(){let alive=true;(function loop(){if(!alive)return;setTimeout(()=>{if(!alive)return;flash(SUB_WORDS[Math.floor(Math.random()*SUB_WORDS.length)]);loop();},8000+Math.random()*6000);})();}
+
+/* hit me */
+let bruises=0;const hitBtn=document.getElementById("hit-btn"),bruiseCtr=document.getElementById("bruise-ctr"),crack=document.getElementById("crack");
+hitBtn.addEventListener("click",()=>{bruises++;const s=String(bruises).padStart(2,"0");bruiseCtr.textContent=bruises<4?`BRUISES: ${s}`:bruises<8?`BRUISES: ${s} · you're starting to feel something`:`BRUISES: ${s} · you've never been more alive`;if(reduceMotion)return;document.body.classList.add("glitching");crack.style.display="block";flash(["PAIN","ALIVE","WAKE UP","TYLER"][Math.floor(Math.random()*4)]);setTimeout(()=>{document.body.classList.remove("glitching");crack.style.display="none";},520);});
+
+/* chemical burn */
+const BURN_LABELS=["— GUILT —","— PAIN —","— BURNING —","— KNOWING —","— FREEDOM —","— BOTTOM —"];
+const hand=document.getElementById("hand"),burnSpot=document.getElementById("burn-spot"),burnSay=document.getElementById("burn-say"),burnFill=document.getElementById("burn-meter-fill"),burnPct=document.getElementById("burn-pct"),burnStageV=document.getElementById("burn-stage-v"),burnMeterTxt=document.getElementById("burn-meter-txt"),burnScar=document.getElementById("burn-scar");
+let burning=false,burnLvl=0,burnRAF=0,stageIdx=0,burnPeaked=false;
+function burnLoop(){
+  if(burning&&burnLvl<100)burnLvl=Math.min(100,burnLvl+1.1);
+  else if(!burning&&burnLvl>0)burnLvl=Math.max(0,burnLvl-1.6);
+  burnFill.style.width=burnLvl+"%";
+  const sz=burnLvl*1.5;burnSpot.style.width=sz+"px";burnSpot.style.height=sz+"px";
+  burnSpot.style.opacity=burnLvl>2?Math.min(1,burnLvl/40):0;
+  burnPct.textContent=Math.round(burnLvl)+"%";
+  burnMeterTxt.textContent=burning?"DO NOT PULL AWAY":(burnLvl>0?"…":"PRESS & HOLD");
+  if(burnLvl>=96)burnPeaked=true;
+  if(burnPeaked)burnScar.classList.add("show");
+  const ns=Math.min(BURN_STAGES.length-1,Math.floor(burnLvl/17));
+  if(ns!==stageIdx){stageIdx=ns;burnSay.textContent=BURN_STAGES[stageIdx];burnStageV.textContent=BURN_LABELS[stageIdx];if(!reduceMotion&&stageIdx>=2)flash("PAIN");}
+  if(burnLvl>0||burning)burnRAF=requestAnimationFrame(burnLoop);else cancelAnimationFrame(burnRAF);
+}
+function startBurn(e){e.preventDefault();burning=true;cancelAnimationFrame(burnRAF);burnLoop();}
+function stopBurn(){burning=false;}
+hand.addEventListener("mousedown",startBurn);hand.addEventListener("touchstart",startBurn,{passive:false});addEventListener("mouseup",stopBurn);addEventListener("touchend",stopBurn);hand.addEventListener("mouseleave",stopBurn);
+
+/* id card */
+const stage=document.getElementById("card-stage"),card3d=document.getElementById("card-3d"),glare=document.getElementById("cf-glare");let flipped=false,tiltRAF=0;
+card3d.style.transition="transform .14s ease-out";
+stage.addEventListener("mousemove",e=>{if(flipped||matchMedia("(hover:none)").matches)return;const r=stage.getBoundingClientRect(),px=(e.clientX-r.left)/r.width,py=(e.clientY-r.top)/r.height;cancelAnimationFrame(tiltRAF);tiltRAF=requestAnimationFrame(()=>{card3d.style.transform=`rotateX(${(.5-py)*18}deg) rotateY(${(px-.5)*24}deg)`;glare.style.background=`radial-gradient(380px circle at ${px*100}% ${py*100}%,rgba(255,255,255,.4),transparent 60%)`;});});
+stage.addEventListener("mouseleave",()=>{if(!flipped){card3d.style.transform="rotateX(0) rotateY(0)";glare.style.background="transparent";}});
+stage.addEventListener("click",()=>{flipped=!flipped;card3d.style.transition="transform .6s ease";card3d.style.transform=flipped?"rotateY(180deg)":"rotateX(0) rotateY(0)";if(!flipped)setTimeout(()=>card3d.style.transition="transform .14s ease-out",620);});
+
+/* jack cycler */
+const jackShown=document.getElementById("jack-shown");let jIdx=0,jTyping=true;
+(function cycle(){const full=JACKS[jIdx];let p=0;const t=setInterval(()=>{if(jTyping){jackShown.textContent=full.slice(0,++p);if(p>=full.length){clearInterval(t);setTimeout(()=>{jTyping=false;cycle();},1500);}}else{jackShown.textContent=full.slice(0,--p);if(p<=0){clearInterval(t);jIdx=(jIdx+1)%JACKS.length;jTyping=true;cycle();}}},jTyping?55:28);})();
+
+/* declassify — reveals newspaper redactions briefly */
+let attempts=0;const newsEl=document.getElementById("newspaper");
+document.getElementById("declass-btn").addEventListener("click",()=>{attempts++;const m=document.getElementById("denied-msg");m.textContent="DECRYPTING…";newsEl.classList.add("reveal-secret");if(!reduceMotion)flash("TYLER");setTimeout(()=>{newsEl.classList.remove("reveal-secret");m.textContent="⚠ ACCESS DENIED — INSUFFICIENT CLEARANCE. THE FIRST RULE STILL APPLIES."+(attempts>2?`  ·  attempts logged: ${attempts}`:"");},1100);});
+
+/* homework */
+let hwCount=0,hwBag=[];const hwText=document.getElementById("hw-text"),hwBtn=document.getElementById("hw-btn"),hwId=document.getElementById("hw-id"),hwCountEl=document.getElementById("hw-count");
+function typeOut(el,str){let i=0;el.textContent="";const t=setInterval(()=>{el.textContent=str.slice(0,++i);if(i>=str.length)clearInterval(t);},18);}
+hwBtn.addEventListener("click",()=>{if(hwBag.length===0)hwBag=[...HOMEWORK].sort(()=>Math.random()-.5);const task=hwBag.pop();hwCount++;hwId.textContent=String(Math.floor(Math.random()*98)+1).padStart(2,"0");hwCountEl.textContent=`assignments issued: ${hwCount}`;hwBtn.textContent="NEXT ASSIGNMENT";typeOut(hwText,task);if(!reduceMotion)flash("MAYHEM");});
+
+/* reveal */
+const rvBtn=document.getElementById("rv-btn"),rvAfter=document.getElementById("rv-after");let rvStage=0;const RV=["…","TYLER","I AM TYLER DURDEN.","AND TYLER IS YOU.","WAKE UP."];
+rvBtn.addEventListener("click",()=>{if(rvStage>=RV.length)rvStage=0;const word=RV[rvStage++];rvAfter.textContent=word;if(!reduceMotion){document.body.classList.add("glitching");flash(word.includes("WAKE")?"WAKE UP":"TYLER");setTimeout(()=>document.body.classList.remove("glitching"),520);}rvBtn.textContent=rvStage>=RV.length?"…":"ARE YOU SURE?";});
+
+/* demolition — detonator console */
+const demo=document.getElementById("demo"),demoQ=document.getElementById("demo-q"),demoCap=document.getElementById("demo-cap"),
+  plunger=document.getElementById("det-plunger"),safety=document.getElementById("det-toggle"),
+  readout=document.getElementById("det-readout"),ledArm=document.getElementById("det-led-arm"),ledLive=document.getElementById("det-led-live");
+let armed=false,boomed=false,counting=false;
+safety.addEventListener("click",()=>{
+  if(boomed)return;armed=!armed;
+  safety.classList.toggle("on",armed);safety.textContent=armed?"▮ SAFETY: OFF":"▮ SAFETY: ON";
+  ledArm.classList.toggle("armed",armed);
+  readout.textContent=armed?"T-00:03":"T—:——";
+});
+plunger.addEventListener("pointerdown",()=>plunger.classList.add("down"));
+addEventListener("pointerup",()=>plunger.classList.remove("down"));
+plunger.addEventListener("click",()=>{
+  if(boomed||counting)return;
+  if(!armed){readout.textContent="ARM 1ST";if(!reduceMotion){document.body.classList.add("glitching");setTimeout(()=>document.body.classList.remove("glitching"),300);}setTimeout(()=>readout.textContent="T—:——",700);return;}
+  counting=true;ledLive.classList.add("live");
+  let n=3;readout.textContent="T-00:0"+n;
+  const cd=setInterval(()=>{n--;if(n>=0)readout.textContent="T-00:0"+n;if(n<=0){clearInterval(cd);detonate();}},700);
+});
+function detonate(){
+  boomed=true;readout.textContent="00:00";
+  demo.classList.add("boom");
+  if(!reduceMotion){document.body.classList.add("glitching");flash("∅");setTimeout(()=>document.body.classList.remove("glitching"),520);}
+  let i=0;const ENDQ=["You met me at a very strange time in my life.","Trust me — everything's going to be fine.","You're going to like Tyler's plan.","Where is my mind?"];
+  demoCap.textContent="— REEL 03 · FINAL FRAME · WHERE IS MY MIND? —";
+  const t=setInterval(()=>{demoQ.style.opacity=0;setTimeout(()=>{demoQ.textContent="“"+ENDQ[i%ENDQ.length]+"”";demoQ.style.opacity=1;i++;},600);if(i>=ENDQ.length)clearInterval(t);},2600);
+}
+
+function jump(id){document.getElementById(id)?.scrollIntoView({behavior:"smooth"});}
+</script>
+</body>
+</html>

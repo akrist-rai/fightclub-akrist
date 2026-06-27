@@ -1,0 +1,20 @@
+{
+  "name": "fight-club",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "FIGHT CLUB // Project Mayhem — a purposeless homage. The first rule is you do not talk about it.",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "vite": "^5.4.10"
+  }
+}
