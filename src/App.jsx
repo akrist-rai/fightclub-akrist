@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { FxProvider, useFx, useFxState } from './context/Fx.jsx';
 
+import Hud from './components/Hud.jsx';
 import Ambient from './components/Ambient.jsx';
 import SideNav from './components/SideNav.jsx';
 import Boot from './components/Boot.jsx';
 import Hero from './components/Hero.jsx';
-import SceneBreak from './components/SceneBreak.jsx';
 import GunMonologue from './components/GunMonologue.jsx';
 import Manifesto from './components/Manifesto.jsx';
 import Support from './components/Support.jsx';
@@ -54,14 +54,13 @@ function Site() {
 
   return (
     <>
+      <Hud />
       <Ambient />
       <SideNav />
       <main className={glitching ? 'glitching' : undefined}>
         <Hero />
-        <SceneBreak id="meet" img="img/we-dont-talk.jpg" alt="The narrator and Tyler" reelLeft="REEL 01 · 24FPS" reelRight="SCENE 02 — SINGLE-SERVING" cap={'“This is how I met Tyler Durden.”'} />
         <GunMonologue />
         <Manifesto />
-        <SceneBreak img="img/tyler-smoke.jpg" alt="Tyler Durden" reelLeft="REEL 01" reelRight="SCENE 04 — THE OFFER" cap={'“Is this the life you really want?”'} />
         <Support />
         <Rules />
         <ChemicalBurn />
@@ -69,11 +68,9 @@ function Site() {
         <Jack />
         <CopyInsomnia />
         <Consume />
-        <SceneBreak img="img/nobody-cares.jpg" alt="Nobody cares unless you win or die" reelLeft="REEL 02" reelRight="SCENE 09 — PROJECT MAYHEM" cap={'“Nobody cares unless you win or die.”'} />
         <Newspaper />
         <Homework />
         <Raymond />
-        <SceneBreak img="img/control-letgo.jpg" alt="Stop trying to control everything and just let go" reelLeft="REEL 03" reelRight="SCENE 14 — THE WHEEL" cap={'“Stop trying to control everything and just let go.”'} />
         <Soap />
         <Reveal />
         <Demolition />

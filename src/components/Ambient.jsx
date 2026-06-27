@@ -21,8 +21,6 @@ export default function Ambient() {
   return (
     <>
       <div className="grain" />
-      <div className="scan" />
-      <div className="scanbar" />
       <div className="vig" />
 
       <div className="fuse"><div className="fuse-fill" style={{ width: fuse + '%' }}><div className="fuse-spark" /></div></div>

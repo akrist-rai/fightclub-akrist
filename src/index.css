@@ -29,7 +29,7 @@ img,svg{display:block;}
 .eyebrow.ash{color:var(--ash);}.eyebrow.gold{color:var(--mayhem);}
 
 /* ---------- ambient ---------- */
-.grain{position:fixed;inset:-50px;z-index:9000;pointer-events:none;mix-blend-mode:overlay;opacity:.06;
+.grain{position:fixed;inset:-50px;z-index:9000;pointer-events:none;mix-blend-mode:overlay;opacity:.04;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
   animation:grain .42s steps(4) infinite;}
 .scan{position:fixed;inset:0;z-index:9001;pointer-events:none;opacity:.38;
@@ -132,7 +132,7 @@ img,svg{display:block;}
 .hit-btn:hover{background:var(--blood-l);}.hit-btn:active{transform:scale(.95) translateY(2px);}
 .bruise-ctr{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:.2em;color:var(--ash-d);}
 .hero-poster{position:relative;z-index:5;justify-self:center;}
-.hero-poster img{max-height:80vh;width:auto;max-width:40vw;box-shadow:0 40px 90px -28px rgba(0,0,0,.95),0 0 60px -10px rgba(63,143,134,.35),0 0 0 1px rgba(0,0,0,.5);}
+.hero-poster img{max-height:72vh;width:auto;max-width:38vw;box-shadow:0 40px 90px -30px rgba(0,0,0,.92),0 0 0 1px rgba(0,0,0,.5);}
 .hero-poster .pin{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:.24em;color:var(--ash-d);text-align:center;margin-top:10px;}
 .scroll-hint{position:absolute;bottom:4vh;left:7vw;z-index:7;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:.3em;color:var(--ash-d);animation:bob 2.4s ease-in-out infinite;}
 @media(max-width:900px){
@@ -578,3 +578,197 @@ img,svg{display:block;}
   .r-card:nth-child(7){grid-column:span 1;}
 }
 @media(max-width:620px){.sec{padding:80px 6vw;}.rules-grid{grid-template-columns:1fr 1fr;}}
+
+/* =====================================================================
+   REDESIGN v2 — images become physical objects in the world
+   wheatpaste poster walls · stapled flyers · tavern bar · corkboard
+   ===================================================================== */
+
+/* ---- concrete wall (scene breaks) ---- */
+.scene.wall{background:linear-gradient(180deg,#1c1c20,#0d0d10 72%,#090909);perspective:1300px;}
+.scene.wall::before{content:"";position:absolute;inset:0;z-index:0;opacity:.6;pointer-events:none;
+  background:
+    repeating-linear-gradient(90deg,rgba(0,0,0,.16) 0 1px,transparent 1px 11px),
+    radial-gradient(150% 120% at 50% -10%,rgba(255,255,255,.05),transparent 55%),
+    radial-gradient(120% 120% at 50% 120%,rgba(0,0,0,.85),transparent 52%);}
+.scene.wall::after{content:"";position:absolute;inset:0;z-index:0;opacity:.05;mix-blend-mode:overlay;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+
+/* torn scraps of older posters peeking behind */
+.scrap{position:absolute;z-index:1;opacity:.22;filter:grayscale(.6) brightness(.5) contrast(1.1);pointer-events:none;
+  background:repeating-linear-gradient(0deg,#b9b3a2 0 14px,#c8c2b0 14px 16px),linear-gradient(180deg,#9c2a2e,#7c1318);
+  clip-path:polygon(0 4%,30% 0,55% 6%,82% 1%,100% 5%,96% 100%,60% 96%,28% 100%,2% 95%);}
+.scrap.a{left:4vw;top:14vh;width:150px;height:210px;transform:rotate(-7deg);}
+.scrap.b{right:5vw;bottom:12vh;width:130px;height:180px;transform:rotate(6deg);}
+.scrap.c{right:18vw;top:18vh;width:90px;height:130px;transform:rotate(-3deg);opacity:.14;}
+
+/* the pasted poster */
+.paste{position:relative;z-index:3;filter:drop-shadow(0 26px 34px rgba(0,0,0,.72));cursor:default;transform-style:preserve-3d;}
+.paste-paper{position:relative;display:block;will-change:transform;transition:transform .2s ease-out,filter .4s ease;
+  clip-path:polygon(
+    0% 3%,4% 1%,9% 3%,14% 0%,19% 2%,25% 0%,31% 3%,37% 1%,43% 3%,49% 0%,55% 2%,61% 0%,67% 3%,73% 1%,79% 3%,85% 0%,91% 2%,97% 0%,100% 3%,
+    99% 9%,100% 16%,98% 23%,100% 30%,99% 37%,100% 44%,98% 51%,100% 58%,99% 65%,100% 72%,98% 79%,100% 86%,99% 93%,100% 98%,
+    96% 100%,90% 98%,84% 100%,78% 98%,72% 100%,66% 98%,60% 100%,54% 98%,48% 100%,42% 98%,36% 100%,30% 98%,24% 100%,18% 98%,12% 100%,6% 98%,1% 100%,
+    0% 94%,2% 87%,0% 80%,1% 73%,0% 66%,2% 59%,0% 52%,1% 45%,0% 38%,2% 31%,0% 24%,1% 17%,0% 10%);}
+.scene .paste .poster{position:relative;display:block;max-height:74vh;max-width:78vw;width:auto;height:auto;
+  box-shadow:none;filter:contrast(1.05) saturate(.96) brightness(.96);}
+.paste:hover .paste-paper{filter:brightness(1.04);}
+/* wrinkles / paper buckle */
+.wrinkle{position:absolute;inset:0;pointer-events:none;mix-blend-mode:overlay;opacity:.7;
+  background:
+    linear-gradient(102deg,transparent 38%,rgba(255,255,255,.10) 50%,transparent 62%),
+    linear-gradient(258deg,transparent 30%,rgba(0,0,0,.16) 50%,transparent 70%),
+    repeating-linear-gradient(88deg,rgba(0,0,0,.04) 0 9px,transparent 9px 22px);}
+/* tape */
+.ptape{position:absolute;z-index:4;width:104px;height:28px;
+  background:linear-gradient(180deg,rgba(216,200,150,.40),rgba(186,168,116,.30));
+  box-shadow:0 2px 5px rgba(0,0,0,.35);-webkit-backdrop-filter:blur(1px);backdrop-filter:blur(1px);
+  clip-path:polygon(3% 14%,9% 2%,17% 12%,26% 1%,35% 12%,46% 2%,57% 13%,68% 2%,79% 12%,90% 2%,98% 13%,100% 86%,90% 99%,80% 88%,69% 99%,58% 87%,47% 99%,36% 88%,25% 99%,15% 88%,6% 99%,0% 86%);}
+.ptape::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(255,255,255,.08) 0 2px,transparent 2px 5px);}
+.ptape.tl{top:-14px;left:7%;transform:rotate(-8deg);}
+.ptape.tr{top:-14px;right:7%;transform:rotate(7deg);}
+.ptape.bl{bottom:-14px;left:14%;transform:rotate(5deg);}
+/* staples */
+.staple{position:absolute;z-index:4;width:12px;height:4px;border-radius:1px;
+  background:linear-gradient(180deg,#e6e6e6,#7d7d7d);box-shadow:0 1px 1px rgba(0,0,0,.6);}
+.staple.s1{top:5%;left:24%;transform:rotate(12deg);}
+.staple.s2{top:4%;right:26%;transform:rotate(-16deg);}
+.staple.s3{bottom:6%;left:30%;transform:rotate(-8deg);}
+.staple.s4{bottom:5%;right:22%;transform:rotate(20deg);}
+/* peeling corner */
+.peel{position:absolute;z-index:5;right:-1px;bottom:-1px;width:0;height:0;border-style:solid;
+  border-width:0 0 36px 36px;border-color:transparent transparent #d8d2c0 transparent;
+  filter:drop-shadow(-4px -4px 5px rgba(0,0,0,.55));transition:border-width .4s cubic-bezier(.2,.7,.2,1);}
+.paste:hover .peel{border-width:0 0 72px 72px;}
+/* spray-stencil caption */
+.stencil{position:absolute;left:0;right:0;bottom:max(26px,6vh);z-index:6;text-align:center;
+  font-family:'Anton',Impact,sans-serif;text-transform:uppercase;letter-spacing:.01em;
+  font-size:clamp(20px,3.6vw,46px);line-height:.92;color:#e7e2d4;transform:rotate(-1.4deg);
+  text-shadow:0 0 1px rgba(0,0,0,.5),2px 2px 0 rgba(0,0,0,.35),-1px 1px 6px rgba(200,35,42,.35);padding:0 8vw;}
+.stencil .spray{color:var(--blood);-webkit-text-stroke:1px rgba(200,35,42,.5);}
+
+/* ---- hero one-sheet (calm, no tape) ---- */
+.hero-poster{transform:none;}
+.hero-poster .ptape{width:120px;height:30px;}
+.hero-poster .ptape.tl{top:-16px;left:8%;}
+.hero-poster .ptape.tr{top:-16px;right:8%;}
+.leader{position:absolute;top:13vh;right:5.5vw;width:118px;height:118px;z-index:6;opacity:.5;color:var(--soap);pointer-events:none;}
+.leader .sweep{transform-origin:60px 60px;animation:leader-spin 4s linear infinite;}
+@keyframes leader-spin{to{transform:rotate(360deg);}}
+@media(max-width:1100px){.leader{display:none;}}
+
+/* ---- Lou's Tavern bar (Jack coasters) ---- */
+.bartop{position:relative;padding:30px 30px 26px;border-radius:8px;
+  background:
+    repeating-linear-gradient(91deg,rgba(0,0,0,.22) 0 2px,transparent 2px 5px,rgba(255,255,255,.025) 5px 7px,transparent 7px 26px),
+    linear-gradient(180deg,#42301e,#2a1c10 70%,#1c1209);
+  box-shadow:inset 0 2px 6px rgba(255,255,255,.06),inset 0 -10px 24px rgba(0,0,0,.55),0 30px 60px -30px rgba(0,0,0,.9);}
+.bartop::after{content:"";position:absolute;inset:0;border-radius:8px;pointer-events:none;
+  background:radial-gradient(120% 80% at 30% 20%,rgba(255,200,120,.06),transparent 60%);}
+.beer-ring{position:absolute;border-radius:50%;border:3px solid rgba(180,140,70,.16);
+  box-shadow:0 0 0 4px rgba(180,140,70,.05) inset;z-index:1;width:120px;height:120px;}
+.beer-ring.r1{top:8%;right:8%;}
+.beer-ring.r2{bottom:6%;left:6%;width:78px;height:78px;}
+.coaster-set{position:relative;z-index:2;transform:rotate(-2deg);transition:transform .35s ease;box-shadow:0 14px 26px -10px rgba(0,0,0,.7);}
+.coaster-set:hover{transform:rotate(0deg) translateY(-3px);}
+.coaster-set img{width:100%;height:auto;display:block;border-radius:3px;filter:contrast(1.05) saturate(.92) brightness(.98);}
+.coaster-cap{position:relative;z-index:2;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:.16em;color:#caa46a;margin-top:14px;text-align:center;text-transform:uppercase;}
+
+/* ---- corkboard (soap card Polaroid) ---- */
+.corkboard{position:relative;padding:34px 30px 30px;border:12px solid #4a3018;border-radius:4px;
+  background:
+    radial-gradient(circle at 30% 30%,rgba(0,0,0,.10) 1px,transparent 2px),
+    radial-gradient(circle at 70% 60%,rgba(0,0,0,.08) 1px,transparent 2px),
+    radial-gradient(circle at 50% 80%,rgba(255,255,255,.05) 1px,transparent 2px),
+    linear-gradient(180deg,#bd8d50,#a9763c);
+  background-size:7px 7px,9px 9px,11px 11px,100% 100%;
+  box-shadow:inset 0 0 40px rgba(0,0,0,.35),0 30px 60px -30px rgba(0,0,0,.9);}
+.polaroid{position:relative;background:#f3efe6;padding:12px 12px 44px;transform:rotate(-3deg);
+  box-shadow:0 18px 30px -12px rgba(0,0,0,.7);max-width:340px;margin:0 auto;transition:transform .35s ease;}
+.polaroid:hover{transform:rotate(0deg) scale(1.02);}
+.polaroid img{width:100%;height:auto;display:block;filter:contrast(1.04) saturate(.95);}
+.polaroid .hand{position:absolute;left:0;right:0;bottom:12px;text-align:center;
+  font-family:'Special Elite',monospace;font-size:12px;color:#3a352c;letter-spacing:.02em;}
+.cork-pin{position:absolute;top:-12px;left:50%;transform:translateX(-50%);width:22px;height:22px;border-radius:50%;z-index:3;
+  background:radial-gradient(circle at 35% 30%,#ff6a60,#b3161c 60%,#7c1318);
+  box-shadow:0 4px 6px rgba(0,0,0,.6),inset 0 2px 2px rgba(255,255,255,.5);}
+.cork-pin::after{content:"";position:absolute;left:50%;top:60%;width:2px;height:14px;transform:translateX(-50%);background:rgba(0,0,0,.4);}
+
+/* ---- stapled flyer (rules feature) ---- */
+.flyer{position:relative;transform:rotate(-2.5deg);transition:transform .35s ease;filter:drop-shadow(0 18px 26px rgba(0,0,0,.6));}
+.flyer:hover{transform:rotate(0deg);}
+.flyer img{width:100%;height:auto;display:block;
+  clip-path:polygon(0 2%,12% 0,28% 2%,46% 0,64% 2%,82% 0,100% 2%,98% 20%,100% 40%,98% 60%,100% 80%,99% 100%,80% 98%,60% 100%,40% 98%,20% 100%,2% 99%,0 80%,2% 60%,0 40%,2% 20%);
+  filter:contrast(1.05) brightness(.96);}
+.flyer .ptape{width:90px;height:24px;}
+.flyer .ptape.tl{top:-12px;left:10%;}
+.flyer .ptape.tr{top:-12px;right:10%;}
+.flyer .cap{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:.18em;color:var(--ash);margin-top:12px;text-align:center;}
+
+@media(prefers-reduced-motion:reduce){.leader .sweep{animation:none!important;}}
+@media(max-width:760px){.scrap{display:none;}.scene .paste .poster{max-width:86vw;}}
+
+/* =====================================================================
+   REDESIGN v3 — the projector layer: reticle cursor, cinema HUD, boot
+   ===================================================================== */
+
+/* reticle cursor (fine pointers only) */
+body.reticle, body.reticle *{cursor:none!important;}
+.cursor{position:fixed;left:0;top:0;z-index:9999;pointer-events:none;margin:-18px 0 0 -18px;
+  mix-blend-mode:difference;will-change:transform;transition:opacity .2s;}
+.cursor.off{opacity:0;}
+.cursor-i{transition:transform .14s cubic-bezier(.2,.7,.2,1);transform-origin:18px 18px;}
+.cursor.hot .cursor-i{transform:scale(1.7);}
+
+/* boot progress */
+.boot-bar{margin-top:24px;height:2px;width:min(440px,62vw);background:rgba(124,198,188,.16);}
+.boot-bar i{display:block;height:100%;background:var(--teal);box-shadow:0 0 10px rgba(124,198,188,.7);transition:width .42s ease;}
+
+/* cinema HUD */
+.hud{position:fixed;inset:0;z-index:9300;pointer-events:none;
+  font-family:'Share Tech Mono',monospace;color:rgba(236,231,218,.62);text-transform:uppercase;}
+.br-corner{position:absolute;width:30px;height:30px;border:2px solid rgba(236,231,218,.28);}
+.tlc{top:13px;left:13px;border-right:none;border-bottom:none;}
+.trc{top:13px;right:13px;border-left:none;border-bottom:none;}
+.blc{bottom:13px;left:13px;border-right:none;border-top:none;}
+.brc{bottom:13px;right:13px;border-left:none;border-top:none;}
+.hud-tl{position:absolute;top:17px;left:54px;font-size:10px;letter-spacing:.16em;display:flex;align-items:center;gap:8px;}
+.hud-tl .rec{width:8px;height:8px;border-radius:50%;background:var(--blood);box-shadow:0 0 8px var(--blood);animation:recblink 1.4s steps(1) infinite;}
+.hud-tr{position:absolute;top:17px;right:54px;font-size:10px;letter-spacing:.16em;display:flex;align-items:center;gap:12px;}
+.cue{width:26px;height:26px;border-radius:50%;opacity:0;
+  background:radial-gradient(circle,rgba(255,243,210,.95),rgba(190,120,40,.45) 52%,transparent 72%);}
+.cue.on{animation:cueflash .95s steps(1);}
+@keyframes cueflash{0%,100%{opacity:0}8%,30%{opacity:.95}18%{opacity:.25}}
+.hud-bl{position:absolute;bottom:17px;left:54px;font-size:10px;letter-spacing:.2em;}
+.hud-bl b{color:var(--blood);}
+.hud-br{position:absolute;bottom:13px;right:54px;pointer-events:auto;}
+.sound-toggle{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.14em;
+  background:rgba(0,0,0,.45);color:rgba(236,231,218,.75);border:1px solid rgba(236,231,218,.2);
+  padding:7px 11px;cursor:pointer;transition:color .2s,border-color .2s;}
+.sound-toggle.on{color:var(--mayhem);border-color:rgba(243,194,13,.45);}
+@media(max-width:620px){
+  .hud-tl,.hud-tr{font-size:8px;left:44px;right:44px;gap:6px;}
+  .hud-bl{font-size:8px;left:44px;}
+  .hud-br{right:44px;}
+  .br-corner{width:22px;height:22px;}
+}
+
+/* =====================================================================
+   REDESIGN v4 — curation pass: more space, calmer rhythm, fewer images
+   ===================================================================== */
+/* more breathing room between chapters */
+.sec{padding:150px 7vw;}
+@media(max-width:620px){.sec{padding:96px 6vw;}}
+
+/* hero now sits on quiet black, no busy backdrop */
+.hero{background:radial-gradient(120% 100% at 26% 28%,#141417,#0a0a0b 72%);}
+
+/* pure-typography sections get a comfortable measure */
+.manifesto .stack{max-width:18ch;}
+.manifesto .kick{max-width:16ch;}
+.jack-lede{margin-top:32px;font-family:'Oswald',sans-serif;font-weight:200;font-style:italic;
+  color:var(--ash);font-size:clamp(15px,2vw,22px);max-width:46ch;line-height:1.5;}
+.consume-lede{color:#9fc0d6;font-size:13px;max-width:54ch;line-height:1.7;margin-top:16px;}
+
+/* polaroid sits a touch larger now that the cork board is gone */
+.soap-card-img .polaroid{max-width:360px;}

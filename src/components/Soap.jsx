@@ -19,8 +19,11 @@ export default function Soap() {
           <p className="soap-meta rev">$20 A BAR · ALL NATURAL · HANDMADE · 537 PAPER STREET</p>
         </div>
         <div className="soap-card-img rev">
-          <img src="img/soap-card.jpg" alt="Paper Street Soap Co. business card — the original prop" />
-          <div className="cap">▌ THE ORIGINAL CARD — TYLER DURDEN · 537 PAPER STREET · BRADFORD</div>
+          <div className="polaroid">
+            <span className="cork-pin" />
+            <img src="img/soap-card.jpg" alt="Paper Street Soap Co. business card — the original prop" />
+            <div className="hand">537 Paper Street · Bradford</div>
+          </div>
         </div>
       </div>
     </section>

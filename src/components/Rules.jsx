@@ -10,8 +10,12 @@ export default function Rules() {
           <h2 className="disp rev" style={{ fontSize: 'clamp(36px,8vw,96px)', margin: 0, lineHeight: '.86' }}>The Rules</h2>
         </div>
         <div className="rules-feature rev">
-          <img src="img/you-know-rules.jpg" alt="You know the rules" loading="lazy" />
-          <div className="cap">— YOU KNOW THE RULES —</div>
+          <div className="flyer">
+            <span className="ptape tl" /><span className="ptape tr" />
+            <img src="img/you-know-rules.jpg" alt="You know the rules" loading="lazy" />
+            <span className="staple s1" /><span className="staple s2" />
+          </div>
+          <div className="cap">— STAPLED TO THE BASEMENT DOOR —</div>
         </div>
       </div>
       <div className="rules-grid">

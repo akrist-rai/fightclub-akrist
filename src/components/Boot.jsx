@@ -25,10 +25,13 @@ export default function Boot({ onDone }) {
     return () => clearInterval(t);
   }, [finish]);
 
+  const pct = Math.round((lines.length / BOOT_LINES.length) * 100);
+
   return (
     <div className={'boot' + (gone ? ' gone' : '')} onClick={finish}>
       <pre>{lines.join('\n')}<span className="blk" /></pre>
-      <div className="skip">[ click anywhere to enter the basement ]</div>
+      <div className="boot-bar"><i style={{ width: pct + '%' }} /></div>
+      <div className="skip">{pct < 100 ? `▌ rendering . . . ${pct}%` : '▌ projecting — [ click anywhere to enter the basement ]'}</div>
     </div>
   );
 }

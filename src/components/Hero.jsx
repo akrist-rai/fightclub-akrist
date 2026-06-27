@@ -19,8 +19,6 @@ export default function Hero() {
 
   return (
     <header className="hero">
-      <img className="hero-bg" src="img/rule-no1.jpg" alt="" fetchPriority="high" />
-      <div className="hero-bg-tint" />
       <div className="hero-cnt">
         <span className="eyebrow flick">RULE 01 — YOU DO NOT TALK ABOUT FIGHT CLUB</span>
         <h1 className="glitch" data-text="FIGHT CLUB">FIGHT CLUB</h1>
@@ -35,8 +33,8 @@ export default function Hero() {
         </div>
       </div>
       <div className="hero-poster">
-        <img src="img/hero-poster.jpg" alt="Fight Club one-sheet" />
-        <div className="pin">— NOW SHOWING · 1999 · DIR. DAVID FINCHER —</div>
+        <img src="img/hero-poster.jpg" alt="Fight Club one-sheet, 1999" />
+        <div className="pin">— 1999 · A DAVID FINCHER FILM —</div>
       </div>
       <div className="scroll-hint">↓ DESCEND</div>
     </header>

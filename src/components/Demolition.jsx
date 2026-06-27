@@ -107,7 +107,6 @@ export default function Demolition() {
       </div>
 
       <figure className="endstrip">
-        <img src="img/where-is-my-mind.jpg" alt="Where is my mind" loading="lazy" />
         <img src="img/ending-art.jpg" alt="Holding hands as the buildings come down" loading="lazy" />
       </figure>
       <figcaption className="demo-q" style={{ minHeight: '1em', marginTop: 14 }}>{cap}</figcaption>
