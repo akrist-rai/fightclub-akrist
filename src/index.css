@@ -772,3 +772,101 @@ body.reticle, body.reticle *{cursor:none!important;}
 
 /* polaroid sits a touch larger now that the cork board is gone */
 .soap-card-img .polaroid{max-width:360px;}
+
+/* =====================================================================
+   HEADER NAVBAR
+   ===================================================================== */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: rgba(10, 10, 11, 0.94);
+  border-bottom: 1px solid rgba(236, 231, 218, 0.12);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 max(54px, 5.5vw);
+  z-index: 9200;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.navbar-logo {
+  font-family: 'Anton', Impact, sans-serif;
+  font-size: 20px;
+  letter-spacing: 0.1em;
+  color: var(--soap);
+  text-transform: uppercase;
+}
+
+.navbar-links {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: clamp(16px, 3.5vw, 42px);
+}
+
+.navbar-links li a {
+  text-decoration: none;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 13px;
+  letter-spacing: 0.16em;
+  color: var(--ash);
+  text-transform: uppercase;
+  transition: color 0.25s, text-shadow 0.25s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.navbar-links li a span {
+  color: var(--ash-d);
+  font-size: 11px;
+}
+
+.navbar-links li a:hover,
+.navbar-links li a.active {
+  color: var(--blood);
+  text-shadow: 0 0 8px rgba(200, 35, 42, 0.5);
+}
+
+.navbar-links li a:hover span,
+.navbar-links li a.active span {
+  color: var(--blood-l);
+}
+
+.navbar-meta {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--ash-d);
+}
+
+.hero {
+  padding-top: 60px;
+}
+
+@media(max-width: 760px) {
+  .navbar {
+    padding: 0 44px;
+  }
+  .navbar-logo,
+  .navbar-meta {
+    display: none;
+  }
+  .navbar-links {
+    width: 100%;
+    justify-content: space-between;
+    gap: 0;
+  }
+  .navbar-links li a {
+    font-size: 11px;
+  }
+  .navbar-links li a span {
+    display: none;
+  }
+}
+
