@@ -1,30 +1,93 @@
+import { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
-import { GrandCircle } from '../lib/circles.jsx';
+import { rumble, spark } from '../lib/sfx.js';
 
-// The closed grimoire. Click to open it.
 export default function Cover({ onOpen }) {
+  const [lines, setLines] = useState([]);
+  const [complete, setComplete] = useState(false);
+
+  const bootLogs = [
+    'ESTABLISHING CONNECTION TO CENTRAL COMMAND ROUTER...',
+    'SECURE HANDSHAKE RECOGNIZED. ENCRYPTING FEED...',
+    'RETRIEVING RESEARCH LOGS [OCT.3.11]...',
+    '-------------------------------------------------------',
+    'RESEARCH SUBSECTION: GATE & ALCHEMICAL PROTOCOLS',
+    'CORE LAW DEFINED: EQUIVALENT EXCHANGE',
+    '>> "To obtain, something of equal value must be lost."',
+    '-------------------------------------------------------',
+    'WARNING: HUMAN TRANSMUTATION DATA IS REDACTED [CLASS-A]',
+    'ATTEMPT DETECTION: SIGNAL TRACE SHIELDED...',
+    'TRANSMUTING STATE INTERFACE... COMPLETE.',
+  ];
+
+  useEffect(() => {
+    let index = 0;
+    const interval = setInterval(() => {
+      if (index < bootLogs.length) {
+        setLines((prev) => [...prev, bootLogs[index]]);
+        index++;
+        if (index % 3 === 0) {
+          rumble(); // Add alchemical machine rumble on log load
+        }
+      } else {
+        clearInterval(interval);
+        setComplete(true);
+        spark();
+      }
+    }, 280);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const handleAccess = () => {
+    spark();
+    onOpen();
+  };
+
   return (
-    <motion.button
-      className="cover"
-      onClick={onOpen}
-      initial={{ rotateX: 18, opacity: 0, y: 40 }}
-      animate={{ rotateX: 0, opacity: 1, y: 0 }}
-      exit={{ rotateY: -118, opacity: 0, transformOrigin: 'left center' }}
-      transition={{ duration: 0.8, ease: [0.2, 0.7, 0.2, 1] }}
-      whileHover={{ scale: 1.015 }}
+    <motion.div
+      className="terminal-boot"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0, scale: 0.98 }}
+      transition={{ duration: 0.5 }}
     >
-      <div className="cover-leather">
-        <div className="cover-emboss"><GrandCircle /></div>
-        <div className="cover-plate">
-          <div className="cover-kicker">鋼の錬金術師</div>
-          <h1 className="cover-title">Fullmetal<br />Alchemist</h1>
-          <div className="cover-band" />
-          <div className="cover-sub">A Grimoire of Equivalent Exchange</div>
+      <div className="terminal-screen">
+        <div className="terminal-header">
+          <span className="terminal-dot red"></span>
+          <span className="terminal-dot yellow"></span>
+          <span className="terminal-dot green"></span>
+          <span className="terminal-title">AMESTRIS STATE MILITARY SYSTEM // COLD_BOOT</span>
         </div>
-        <div className="cover-corner ct-tl" /><div className="cover-corner ct-tr" />
-        <div className="cover-corner ct-bl" /><div className="cover-corner ct-br" />
-        <div className="cover-open">✦ open the book ✦</div>
+
+        <div className="terminal-body">
+          {lines.map((line, i) => (
+            <div key={i} className="terminal-line">
+              <span className="terminal-prompt">&gt;</span> {line}
+            </div>
+          ))}
+          {!complete && <div className="terminal-cursor">█</div>}
+
+          {complete && (
+            <motion.div
+              className="terminal-access"
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ type: 'spring', stiffness: 200 }}
+            >
+              <div className="access-title">SYSTEM SECURED // GATE INTERFACE READY</div>
+              <button className="access-btn" onClick={handleAccess}>
+                CONNECT TO ALCHEMICAL MATRIX
+              </button>
+            </motion.div>
+          )}
+        </div>
+
+        <div className="terminal-footer">
+          <span>PORT: 5174 // PROTOCOL: TRUTH_LINK_V4</span>
+          <span>STATION: CENTRAL_CITY</span>
+        </div>
       </div>
-    </motion.button>
+    </motion.div>
   );
 }
