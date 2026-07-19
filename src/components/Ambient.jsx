@@ -28,15 +28,6 @@ export default function Ambient() {
 
       <div className={'sub' + (subWord ? ' show' : '')}><div className="sub-word">{subWord}</div></div>
 
-      {glitching && (
-        <svg className="crack" viewBox="0 0 1000 700" preserveAspectRatio="none">
-          <g stroke="rgba(236,231,218,.7)" strokeWidth="1.4" fill="none">
-            <path d="M500 0 L520 180 L470 300 L560 420 L500 700" />
-            <path d="M520 180 L720 140 M520 180 L300 230 M470 300 L240 360 M560 420 L800 470 M470 300 L640 360" />
-            <path d="M520 180 L640 60 M300 230 L120 180 M800 470 L940 540" />
-          </g>
-        </svg>
-      )}
     </>
   );
 }

@@ -19,9 +19,12 @@ export default function Hero() {
 
   return (
     <header className="hero">
+      <div className="hero-grid" aria-hidden="true" />
+      <div className="hero-serial mono" aria-hidden="true">FC / 1999 / 01—01</div>
       <div className="hero-cnt">
-        <span className="eyebrow flick">RULE 01 — YOU DO NOT TALK ABOUT FIGHT CLUB</span>
-        <h1 className="glitch" data-text="FIGHT CLUB">FIGHT CLUB</h1>
+        <span className="eyebrow flick">RULE 01 / YOU DO NOT TALK ABOUT FIGHT CLUB</span>
+        <p className="hero-kicker mono">A FILM BY DAVID FINCHER <span>·</span> 1999</p>
+        <h1 className="glitch" data-text="FIGHT CLUB"><span>FIGHT</span> <span>CLUB</span></h1>
         <p className="tag">
           An insomniac and a devil-may-care soap maker. A purposeless terminal for Project Mayhem —
           no login, no newsletter, no reason. You met me at a very strange time in my life.
@@ -33,10 +36,14 @@ export default function Hero() {
         </div>
       </div>
       <div className="hero-poster">
-        <img src="img/hero-poster.jpg" alt="Fight Club one-sheet, 1999" />
-        <div className="pin">— 1999 · A DAVID FINCHER FILM —</div>
+        <div className="poster-tab mono">CASE FILE / 01</div>
+        <div className="poster-frame">
+          <img src="img/hero-poster.jpg" alt="Fight Club one-sheet, 1999" />
+          <div className="poster-wash" />
+        </div>
+        <div className="pin">03:42 AM · DELAWARE HOTEL BASEMENT</div>
       </div>
-      <div className="scroll-hint">↓ DESCEND</div>
+      <div className="hero-bottom mono"><span>SCROLL TO ENTER</span><i /><span>NO. 0001</span></div>
     </header>
   );
 }

@@ -7,17 +7,10 @@ export default function Cover({ onOpen }) {
   const [complete, setComplete] = useState(false);
 
   const bootLogs = [
-    'ESTABLISHING CONNECTION TO CENTRAL COMMAND ROUTER...',
-    'SECURE HANDSHAKE RECOGNIZED. ENCRYPTING FEED...',
-    'RETRIEVING RESEARCH LOGS [OCT.3.11]...',
-    '-------------------------------------------------------',
-    'RESEARCH SUBSECTION: GATE & ALCHEMICAL PROTOCOLS',
-    'CORE LAW DEFINED: EQUIVALENT EXCHANGE',
-    '>> "To obtain, something of equal value must be lost."',
-    '-------------------------------------------------------',
-    'WARNING: HUMAN TRANSMUTATION DATA IS REDACTED [CLASS-A]',
-    'ATTEMPT DETECTION: SIGNAL TRACE SHIELDED...',
-    'TRANSMUTING STATE INTERFACE... COMPLETE.',
+    'OPENING THE ELRIC FIELD RECORD...',
+    'RESEMBool // CENTRAL // BRIGGS // THE PROMISED DAY',
+    'A STORY OF TWO BROTHERS AND EVERYONE WHO BROUGHT THEM HOME.',
+    'ARCHIVE READY.',
   ];
 
   useEffect(() => {
@@ -34,7 +27,7 @@ export default function Cover({ onOpen }) {
         setComplete(true);
         spark();
       }
-    }, 280);
+    }, 180);
 
     return () => clearInterval(interval);
   }, []);
@@ -52,41 +45,28 @@ export default function Cover({ onOpen }) {
       exit={{ opacity: 0, scale: 0.98 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="terminal-screen">
-        <div className="terminal-header">
-          <span className="terminal-dot red"></span>
-          <span className="terminal-dot yellow"></span>
-          <span className="terminal-dot green"></span>
-          <span className="terminal-title">AMESTRIS STATE MILITARY SYSTEM // COLD_BOOT</span>
-        </div>
-
-        <div className="terminal-body">
-          {lines.map((line, i) => (
-            <div key={i} className="terminal-line">
-              <span className="terminal-prompt">&gt;</span> {line}
-            </div>
-          ))}
-          {!complete && <div className="terminal-cursor">█</div>}
-
+      <div className="cover-poster">
+        <div className="cover-image" />
+        <div className="cover-ink" />
+        <div className="cover-mark">⚭</div>
+        <div className="cover-kicker">AN UNOFFICIAL VISUAL STORYBOOK OF</div>
+        <h1 className="cover-title"><span>FULLMETAL</span><em>ALCHEMIST</em></h1>
+        <p className="cover-subtitle">BROTHERHOOD · A STORY OF LOSS, CHOICE, AND COMING HOME</p>
+        <div className="cover-dossier">
+          <div className="cover-dossier-title">THE ELRIC RECORD / OPEN FOR READING</div>
+          <div className="terminal-body cover-log" aria-live="polite">
+            {lines.slice(-3).map((line, i) => (
+              <div key={i} className="terminal-line"><span className="terminal-prompt">//</span>{line}</div>
+            ))}
+            {!complete && <div className="terminal-cursor">█</div>}
+          </div>
           {complete && (
-            <motion.div
-              className="terminal-access"
-              initial={{ scale: 0.95, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ type: 'spring', stiffness: 200 }}
-            >
-              <div className="access-title">SYSTEM SECURED // GATE INTERFACE READY</div>
-              <button className="access-btn" onClick={handleAccess}>
-                CONNECT TO ALCHEMICAL MATRIX
-              </button>
+            <motion.div className="terminal-access" initial={{ y: 8, opacity: 0 }} animate={{ y: 0, opacity: 1 }}>
+              <button className="access-btn" onClick={handleAccess}>BEGIN THE STORY <span>→</span></button>
             </motion.div>
           )}
         </div>
-
-        <div className="terminal-footer">
-          <span>PORT: 5174 // PROTOCOL: TRUTH_LINK_V4</span>
-          <span>STATION: CENTRAL_CITY</span>
-        </div>
+        <div className="cover-edition">VOLUME 01<br />1914 / AMESTRIS</div>
       </div>
     </motion.div>
   );

@@ -65,7 +65,7 @@ export default function Alchemy({ onClose }) {
                 </div>
                 <div className="as-right">
                   <div className="beat-fig">
-                    <img src={STEP_IMAGES[s.k]} alt={s.t} loading="lazy" />
+                    <img src={STEP_IMAGES[s.t]} alt={s.t} loading="lazy" />
                   </div>
                 </div>
               </li>

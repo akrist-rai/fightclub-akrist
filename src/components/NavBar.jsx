@@ -20,8 +20,13 @@ export default function NavBar({ currentPage }) {
 
   return (
     <nav className="navbar">
-      <div className="navbar-logo mono">
-        <span>FIGHT CLUB</span>
+      <a className="navbar-logo" href="#/" aria-label="Fight Club home">
+        <span className="navbar-mark">FC</span>
+        <span className="navbar-wordmark">FIGHT<br />CLUB</span>
+        <span className="navbar-edition mono">EST. 1999</span>
+      </a>
+      <div className="navbar-center mono" aria-hidden="true">
+        <span>PROJECT MAYHEM</span><i /> <span>537 PAPER ST.</span>
       </div>
       <ul className="navbar-links">
         {links.map((link) => {
@@ -40,7 +45,7 @@ export default function NavBar({ currentPage }) {
         })}
       </ul>
       <div className="navbar-meta mono">
-        <span>STATUS: ACTIVE</span>
+        <i className="live-dot" /> <span>STATUS: ACTIVE</span>
       </div>
     </nav>
   );

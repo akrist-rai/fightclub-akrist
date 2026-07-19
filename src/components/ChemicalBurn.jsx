@@ -2,9 +2,8 @@ import { useEffect, useRef } from 'react';
 import { useFx } from '../context/Fx.jsx';
 import { BURN_STAGES, BURN_LABELS } from '../data.js';
 
-// Press & hold the hand: the lye burn grows, dialogue advances through the
-// stages, a scar remains. Driven imperatively via refs + rAF (no per-frame
-// re-render) to mirror the original feel.
+// Press and hold the induction field: the lye record advances through stages
+// and leaves a permanent mark. The visual stays deliberately abstract.
 export default function ChemicalBurn() {
   const fx = useFx();
   const spot = useRef(null), scar = useRef(null), fill = useRef(null),
@@ -57,20 +56,10 @@ export default function ChemicalBurn() {
       <div className="burn-grid rev">
         <div className="burn-cell" onMouseDown={start} onTouchStart={start} onMouseLeave={stop}>
           <div className="lbx t" /><div className="lbx b" />
-          <div className="burn-scene">
-            <svg viewBox="0 0 300 280" fill="none" aria-hidden="true">
-              <path fill="currentColor" d="M70 270 C58 220 58 180 66 150 C58 120 70 96 84 100 C88 70 104 64 110 92 C112 60 130 56 134 90 C140 56 158 58 158 94 C166 66 184 70 180 104 C196 110 214 130 214 162 C214 210 206 244 196 270 Z" />
-              <g stroke="#7a5d49" strokeWidth="2" opacity=".5" fill="none">
-                <path d="M96 120 v40" /><path d="M122 110 v52" /><path d="M148 112 v50" /><path d="M172 124 v40" />
-              </g>
-            </svg>
-            <svg className="burn-bottle" viewBox="0 0 60 104" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-              <rect x="23" y="4" width="14" height="10" />
-              <path d="M19 14 h22 l4 18 v60 a5 5 0 0 1 -5 5 h-20 a5 5 0 0 1 -5 -5 v-60 z" />
-              <rect x="17" y="40" width="26" height="36" fill="currentColor" opacity=".12" stroke="none" />
-              <path d="M30 50 l0 12 m-6 -6 l12 0" strokeWidth="1.6" />
-              <text x="30" y="92" textAnchor="middle" fontFamily="'Share Tech Mono',monospace" fontSize="7" fill="currentColor" stroke="none" letterSpacing="1">LYE</text>
-            </svg>
+          <div className="burn-scene" aria-hidden="true">
+            <div className="burn-mark mono">NaOH</div>
+            <div className="burn-orbit o1" /><div className="burn-orbit o2" /><div className="burn-orbit o3" />
+            <div className="burn-cross"><i /><i /></div>
             <div className="burn-spot2" ref={spot} />
             <div className="burn-scar" ref={scar} />
           </div>
