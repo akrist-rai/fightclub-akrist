@@ -28,7 +28,7 @@
     <span class="navbar-edition mono">EST. 1999</span>
   </a>
   <div class="navbar-center mono" aria-hidden="true">
-    <span>PROJECT MAYHEM</span><i /> <span>537 PAPER ST.</span>
+    <span>PROJECT MAYHEM</span><i></i> <span>537 PAPER ST.</span>
   </div>
   <ul class="navbar-links">
     {#each links as link (link.path)}
@@ -45,6 +45,6 @@
     {/each}
   </ul>
   <div class="navbar-meta mono">
-    <i class="live-dot" /> <span>STATUS: ACTIVE</span>
+    <i class="live-dot"></i> <span>STATUS: ACTIVE</span>
   </div>
 </nav>

@@ -20,10 +20,10 @@
 <!-- Fixed full-viewport overlays: film grain, scanlines, vignette, scroll fuse,
      the subliminal flash + the crack that appears during a glitch. Kept OUTSIDE
      the shake wrapper so position:fixed stays anchored to the viewport. -->
-<div class="grain" />
-<div class="vig" />
+<div class="grain"></div>
+<div class="vig"></div>
 
-<div class="fuse"><div class="fuse-fill" style="width:{fuse}%"><div class="fuse-spark" /></div></div>
+<div class="fuse"><div class="fuse-fill" style="width:{fuse}%"><div class="fuse-spark"></div></div></div>
 <div class="fuse-cap">ENDING ONE MINUTE AT A TIME</div>
 
 <div class={'sub' + (fx.subWord ? ' show' : '')}><div class="sub-word">{fx.subWord}</div></div>

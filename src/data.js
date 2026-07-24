@@ -91,3 +91,159 @@ export const END_QUOTES = [
   "You're going to like Tyler's plan.",
   'Where is my mind?',
 ];
+
+// ── Marla ──────────────────────────────────────────────────────────────────
+export const MARLA_QUOTES = [
+  "I haven't been fucked like that since grade school.",
+  "This is a support group. Everyone here is diseased.",
+  "Candy is dandy, but liquor is quicker.",
+  "You're the worst thing that ever happened to me.",
+  "I want to have your abortion.",
+  "The little scratch on the roof of your mouth that would heal if only you could stop tonguing it.",
+  "I lied. I'm a predator posing as a housepet.",
+  "You don't know where I've been, Lou. You don't know where I've been.",
+];
+
+export const MARLA_LINES = [
+  { label: 'HAIR', val: 'Dyed black · nicotine-stained fingers' },
+  { label: 'ALIAS', val: 'Tourist · The Big Tourist · Infiltrator' },
+  { label: 'KNOWN GROUPS', val: 'Remaining Men Together, Melanoma, Blood Parasites, Tuberculosis Survivors, Sickle-Cell Anemia...' },
+  { label: 'PHILOSOPHY', val: 'Her lie reflected my lie. Suddenly — nothing.' },
+  { label: 'STATUS', val: 'Still alive. Probably.' },
+  { label: 'CONNECTION', val: 'She knew. All along.' },
+];
+
+// ── Insomnia ───────────────────────────────────────────────────────────────
+export const INSOMNIA_LOG = [
+  { h: '06:00', entry: 'Wake from non-sleep. Made coffee. Attended meeting. Flew to Tacoma.' },
+  { h: '30:00', entry: "Power naps on the plane. Fragments. Not real sleep. I am Jack's exhausted adrenal gland." },
+  { h: '72:00', entry: 'The edges of things are blurring. Coworkers speak and their mouths are wrong.' },
+  { h: '96:00', entry: 'Bob cried into my shoulder for forty minutes. I slept standing up.' },
+  { h: '120:00', entry: 'On a long enough timeline, everything is one nap I keep interrupting.' },
+  { h: '144:00', entry: "I met Tyler on the airplane. He was reading one of those little bottles of liquor. I don't remember talking to him." },
+  { h: '168:00', entry: 'Condo fire. Everything gone. Tyler gave me his number. Nothing is lost that cannot be remade.' },
+  { h: '??:??', entry: 'Everything is a copy of a copy of a copy. Even this.' },
+];
+
+export const INSOMNIA_QUOTES = [
+  'With insomnia, nothing is real. Everything is far away.',
+  'Everything is a copy of a copy of a copy.',
+  "When you have insomnia, you're never really asleep, and you're never really awake.",
+  'The first soap was made from the ashes of heroes.',
+  'Sticking feathers up your butt does not make you a chicken.',
+];
+
+// ── Tyler's Philosophy ─────────────────────────────────────────────────────
+export const TYLER_PHILOSOPHY = [
+  {
+    heading: 'On Self',
+    quote: "You're not your job. You're not how much money you have in the bank. You're not the car you drive. You're not the contents of your wallet. You're not your fucking khakis.",
+  },
+  {
+    heading: 'On Pain',
+    quote: "Without pain, without sacrifice, we would have nothing. Like the first monkey shot into space.",
+  },
+  {
+    heading: 'On Death',
+    quote: "On a long enough time line, the survival rate for everyone drops to zero.",
+  },
+  {
+    heading: 'On God',
+    quote: "Our fathers were our models for God. If our fathers bailed, what does that tell you about God? You have to consider the possibility that God does not like you. He never wanted you. In all probability, he hates you.",
+  },
+  {
+    heading: 'On Progress',
+    quote: "In the world I see, you are stalking elk through the damp canyon forests around the ruins of Rockefeller Center.",
+  },
+  {
+    heading: 'On Perfection',
+    quote: "Self-improvement is masturbation. Now, self-destruction...",
+  },
+  {
+    heading: 'On Service',
+    quote: "You are not a beautiful and unique snowflake. You are the same decaying organic matter as everything else.",
+  },
+  {
+    heading: 'On Freedom',
+    quote: "It's only after we've lost everything that we're free to do anything.",
+  },
+];
+
+// ── Space Monkey Oath ─────────────────────────────────────────────────────
+export const OATH_LINES = [
+  { id: 'o1', text: 'I SURRENDER MY NAME.' },
+  { id: 'o2', text: 'I SURRENDER MY HISTORY.' },
+  { id: 'o3', text: 'I SURRENDER MY FEAR.' },
+  { id: 'o4', text: 'I HAVE NO NAME. I AM A SPACE MONKEY.' },
+  { id: 'o5', text: 'I EXIST ONLY TO SERVE PROJECT MAYHEM.' },
+  { id: 'o6', text: 'IF I AM CAPTURED, MY NAME IS ROBERT PAULSON.' },
+  { id: 'o7', text: 'THE FIRST RULE STILL APPLIES.' },
+  { id: 'o8', text: "I AM JACK'S COMPLETE SENSE OF LIBERATION." },
+];
+
+// ── Project Mayhem Committees ─────────────────────────────────────────────
+export const COMMITTEES = [
+  {
+    code: 'PM-01',
+    name: 'Arson',
+    status: 'ACTIVE',
+    head: '[REDACTED]',
+    brief: 'Incendiary actions targeting corporate and financial infrastructure. All materials locally sourced. No accelerants purchased.',
+    ops: ['Paper Street Soap Co. — wax & glycerol surplus', 'Delayed ignition via cigarette timer', 'Five buildings — pending authorization'],
+  },
+  {
+    code: 'PM-02',
+    name: 'Assault',
+    status: 'ACTIVE',
+    head: '[REDACTED]',
+    brief: 'Physical engagements, territorial enforcement, and the education of civilians who do not listen the first time.',
+    ops: ['Recruitment from Fight Club cells', 'Rule: no badge, no mercy', 'Current operatives: ████'],
+  },
+  {
+    code: 'PM-03',
+    name: 'Mischief',
+    status: 'ACTIVE',
+    head: '[REDACTED]',
+    brief: 'Psychological disruption. Statuary, lug nuts, laxatives in the plaza. The goal is not damage — the goal is doubt.',
+    ops: ['Demagnetized 300+ tapes', 'Yin-yang face, 3 corporate buildings', 'Operation Pigeon — ongoing'],
+  },
+  {
+    code: 'PM-04',
+    name: 'Misinformation',
+    status: 'ACTIVE',
+    head: '[REDACTED]',
+    brief: 'Media infiltration, single-frame splicing, and the careful placement of doubt into the minds of people who trust screens.',
+    ops: ['6 theatres, 1 frame each', 'Press leak — Project Mayhem alias used', 'Cell phones surrendered on entry'],
+  },
+  {
+    code: 'PM-05',
+    name: '████████████',
+    status: '██████',
+    head: '[CLASSIFIED]',
+    brief: '████████ ████ ███ ████████ ████████ █████. ██████████ ███████████ ████ ████ ██ ███████. ████ ██ ███.',
+    ops: ['██████████', '███ ████████████', '████ ██████ ██ ████'],
+  },
+];
+
+// ── Underground spread ─────────────────────────────────────────────────────
+export const CITIES = [
+  { city: 'Wilmington', state: 'DE', clubs: 3, status: 'FOUNDED' },
+  { city: 'Baltimore', state: 'MD', clubs: 5, status: 'ACTIVE' },
+  { city: 'Philadelphia', state: 'PA', clubs: 4, status: 'ACTIVE' },
+  { city: 'Detroit', state: 'MI', clubs: 7, status: 'EXPANDING' },
+  { city: 'Cleveland', state: 'OH', clubs: 3, status: 'ACTIVE' },
+  { city: 'Chicago', state: 'IL', clubs: 9, status: 'ACTIVE' },
+  { city: 'St. Louis', state: 'MO', clubs: 4, status: 'ACTIVE' },
+  { city: 'New York', state: 'NY', clubs: 12, status: 'COMPROMISED' },
+  { city: 'Los Angeles', state: 'CA', clubs: 6, status: 'ACTIVE' },
+  { city: '████████', state: '██', clubs: '?', status: 'UNKNOWN' },
+];
+
+export const UNDERGROUND_RULES = [
+  'One cell per city. No contact between cells.',
+  'Each cell has its own recruiter. Recruiter knows only his cell.',
+  'The cell leader takes orders from no name. Only the work.',
+  'Disbanding is not permitted. Disbanding is cowardice.',
+  'If any member of Project Mayhem is ever arrested, his name is Robert Paulson.',
+];
+
